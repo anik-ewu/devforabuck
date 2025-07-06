@@ -1,0 +1,210 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Infrastructure/DevForABuck.Infrastructure.csproj": {}
+  },
+  "projects": {
+    "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/DevForABuck.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/DevForABuck.Application.csproj",
+        "projectName": "DevForABuck.Application",
+        "projectPath": "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/DevForABuck.Application.csproj",
+        "packagesPath": "/Users/sabbirhasan/.nuget/packages/",
+        "outputPath": "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/sabbirhasan/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/EcoHub/_packaging/EcoHub-Essential/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/DevForABuck.Domain.csproj": {
+                "projectPath": "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/DevForABuck.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.405/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/DevForABuck.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/DevForABuck.Domain.csproj",
+        "projectName": "DevForABuck.Domain",
+        "projectPath": "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/DevForABuck.Domain.csproj",
+        "packagesPath": "/Users/sabbirhasan/.nuget/packages/",
+        "outputPath": "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/sabbirhasan/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/EcoHub/_packaging/EcoHub-Essential/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.405/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Infrastructure/DevForABuck.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Infrastructure/DevForABuck.Infrastructure.csproj",
+        "projectName": "DevForABuck.Infrastructure",
+        "projectPath": "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Infrastructure/DevForABuck.Infrastructure.csproj",
+        "packagesPath": "/Users/sabbirhasan/.nuget/packages/",
+        "outputPath": "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Infrastructure/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/sabbirhasan/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/EcoHub/_packaging/EcoHub-Essential/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/DevForABuck.Application.csproj": {
+                "projectPath": "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/DevForABuck.Application.csproj"
+              },
+              "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/DevForABuck.Domain.csproj": {
+                "projectPath": "/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/DevForABuck.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Azure.Storage.Blobs": {
+              "target": "Package",
+              "version": "[12.24.1, )"
+            },
+            "Microsoft.Azure.Cosmos": {
+              "target": "Package",
+              "version": "[3.52.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.405/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

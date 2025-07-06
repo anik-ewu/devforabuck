@@ -1,0 +1,12 @@
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/bin/Debug/net8.0/DevForABuck.Domain.deps.json
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/bin/Debug/net8.0/DevForABuck.Domain.dll
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/bin/Debug/net8.0/DevForABuck.Domain.pdb
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/obj/Debug/net8.0/DevForABuck.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/obj/Debug/net8.0/DevForABuck.Domain.AssemblyInfoInputs.cache
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/obj/Debug/net8.0/DevForABuck.Domain.AssemblyInfo.cs
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/obj/Debug/net8.0/DevForABuck.Domain.csproj.CoreCompileInputs.cache
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/obj/Debug/net8.0/DevForABuck.Domain.sourcelink.json
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/obj/Debug/net8.0/DevForABuck.Domain.dll
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/obj/Debug/net8.0/refint/DevForABuck.Domain.dll
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/obj/Debug/net8.0/DevForABuck.Domain.pdb
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Domain/obj/Debug/net8.0/ref/DevForABuck.Domain.dll

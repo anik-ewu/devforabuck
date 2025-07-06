@@ -1,0 +1,16 @@
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/bin/Debug/net8.0/DevForABuck.Application.deps.json
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/bin/Debug/net8.0/DevForABuck.Application.dll
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/bin/Debug/net8.0/DevForABuck.Application.pdb
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/bin/Debug/net8.0/DevForABuck.Domain.dll
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/bin/Debug/net8.0/DevForABuck.Domain.pdb
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/obj/Debug/net8.0/DevForABuck.Application.csproj.AssemblyReference.cache
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/obj/Debug/net8.0/DevForABuck.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/obj/Debug/net8.0/DevForABuck.Application.AssemblyInfoInputs.cache
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/obj/Debug/net8.0/DevForABuck.Application.AssemblyInfo.cs
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/obj/Debug/net8.0/DevForABuck.Application.csproj.CoreCompileInputs.cache
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/obj/Debug/net8.0/DevForABuck.Application.sourcelink.json
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/obj/Debug/net8.0/DevForAB.CA05248D.Up2Date
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/obj/Debug/net8.0/DevForABuck.Application.dll
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/obj/Debug/net8.0/refint/DevForABuck.Application.dll
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/obj/Debug/net8.0/DevForABuck.Application.pdb
+/Users/sabbirhasan/Documents/dev-for-a-buck/devforabuck/backend/DevForABuck.Application/obj/Debug/net8.0/ref/DevForABuck.Application.dll

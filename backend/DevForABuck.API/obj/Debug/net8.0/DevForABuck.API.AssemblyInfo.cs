@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DevForABuck.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+165bac0e4b38a705dc206580a03241ca1edbbe30")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7cfdafdbe5e60ea5c37467ce9cbe045d130b7b01")]
 [assembly: System.Reflection.AssemblyProductAttribute("DevForABuck.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DevForABuck.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
