@@ -487,6 +487,8 @@ bin/
 obj/
 *.dll
 
+appsettings.Development.json
+
 # Angular
 frontend/devforabuck-web/node_modules/
 frontend/devforabuck-web/dist/

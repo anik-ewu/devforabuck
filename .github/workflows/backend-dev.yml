@@ -11,6 +11,10 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    env:
+      COSMOSDB_ACCOUNT: ${{ secrets.COSMOS_ACCOUNT_URI_DEV }}
+      COSMOSDB_KEY: ${{ secrets.COSMOS_KEY_DEV }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

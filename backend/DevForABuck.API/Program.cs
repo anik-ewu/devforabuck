@@ -5,35 +5,42 @@ using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services
+// ✅ Add Controllers
 builder.Services.AddControllers();
+
+// ✅ Add Swagger (always on in dev)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Cosmos
+// ✅ Add CosmosClient singleton
 builder.Services.AddSingleton(s =>
 {
     var config = s.GetRequiredService<IConfiguration>();
-    return new CosmosClient(config["CosmosDb:Account"], config["CosmosDb:Key"]);
+    var account = config["CosmosDb:Account"];
+    var key = config["CosmosDb:Key"];
+    return new CosmosClient(account, key);
 });
 
-// Blob
+// ✅ Add BlobServiceClient singleton
 builder.Services.AddSingleton(s =>
 {
     var config = s.GetRequiredService<IConfiguration>();
-    return new BlobServiceClient(config["BlobStorage:ConnectionString"]);
+    var connStr = config["BlobStorage:ConnectionString"];
+    return new BlobServiceClient(connStr);
 });
 
-// BookingService
+// ✅ Register your BookingService
 builder.Services.AddScoped<IBookingService, BookingService>();
 
 var app = builder.Build();
 
-// Swagger always on in dev
+// ✅ Use Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
 
+// ✅ Add HTTPS & routing
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
 app.Run();
