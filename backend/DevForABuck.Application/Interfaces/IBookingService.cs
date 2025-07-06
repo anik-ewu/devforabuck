@@ -1,6 +1,11 @@
-namespace DevForABuck.Application.Interfaces;
+using DevForABuck.Domain.Entities;
 
-public interface IBookingService
+namespace DevForABuck.Application.Interfaces
 {
-    
+    public interface IBookingService
+    {
+        Task<Booking> CreateBookingAsync(Booking booking, Stream resumeStream, string fileName);
+        Task<IEnumerable<Booking>> GetBookingsByEmailAsync(string email);
+        Task<IEnumerable<Booking>> GetAllBookingsAsync();
+    }
 }
