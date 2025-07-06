@@ -1,3 +1,4 @@
+using DevForABuck.API.Models;
 using DevForABuck.Application.Interfaces;
 using DevForABuck.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -16,38 +17,30 @@ namespace DevForABuck.API.Controllers
         }
 
         [HttpPost]
-        [HttpPost]
-        public async Task<IActionResult> CreateBooking(
-            [FromForm] string name,
-            [FromForm] string email,
-            [FromForm] string stack,
-            [FromForm] int experienceYears,
-            [FromForm] DateTime slotTime,
-            [FromForm] IFormFile resume)
+        [Consumes("multipart/form-data")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateBooking([FromForm] BookingRequest request)
         {
-            if (resume == null || resume.Length == 0)
+            if (request.Resume == null || request.Resume.Length == 0)
                 return BadRequest("Resume file is required.");
 
             var booking = new Booking
             {
-                Name = name,
-                Email = email,
-                Stack = stack,
-                ExperienceYears = experienceYears,
-                SlotTime = slotTime
+                Name = request.Name,
+                Email = request.Email,
+                Stack = request.Stack,
+                ExperienceYears = request.ExperienceYears,
+                SlotTime = request.SlotTime
             };
 
-            // ✅ Open stream from IFormFile
-            using var stream = resume.OpenReadStream();
-
-            // ✅ Pass Stream + FileName to Service
-            var createdBooking = await _bookingService.CreateBookingAsync(booking, stream, resume.FileName);
+            using var stream = request.Resume.OpenReadStream();
+            var createdBooking = await _bookingService.CreateBookingAsync(booking, stream, request.Resume.FileName);
 
             return CreatedAtAction(nameof(CreateBooking), new { id = createdBooking.Id }, createdBooking);
         }
 
-
-
+        
         [HttpGet("{email}")]
         public async Task<IActionResult> GetByEmail(string email)
         {
