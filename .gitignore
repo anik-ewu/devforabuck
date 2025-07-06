@@ -482,3 +482,11 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+bin/
+obj/
+*.dll
+
+# Angular
+frontend/devforabuck-web/node_modules/
+frontend/devforabuck-web/dist/
