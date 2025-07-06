@@ -1,44 +1,39 @@
+using DevForABuck.Application.Interfaces;
+using DevForABuck.Infrastructure.Services;
+using Microsoft.Azure.Cosmos;
+using Azure.Storage.Blobs;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Add services
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Cosmos
+builder.Services.AddSingleton(s =>
+{
+    var config = s.GetRequiredService<IConfiguration>();
+    return new CosmosClient(config["CosmosDb:Account"], config["CosmosDb:Key"]);
+});
+
+// Blob
+builder.Services.AddSingleton(s =>
+{
+    var config = s.GetRequiredService<IConfiguration>();
+    return new BlobServiceClient(config["BlobStorage:ConnectionString"]);
+});
+
+// BookingService
+builder.Services.AddScoped<IBookingService, BookingService>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// Swagger always on in dev
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
-
+app.UseAuthorization();
+app.MapControllers();
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

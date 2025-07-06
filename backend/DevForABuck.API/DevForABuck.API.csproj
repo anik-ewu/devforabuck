@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DevForABuck.Application\DevForABuck.Application.csproj" />
+    <ProjectReference Include="..\DevForABuck.Infrastructure\DevForABuck.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
