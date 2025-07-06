@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace DevForABuck.Infrastructure.Services
 {
-    public class BookingService: IBookingService
+    public class BookingService : IBookingService
     {
         private readonly Container _container;
         private readonly BlobContainerClient _blobContainerClient;
@@ -24,15 +24,27 @@ namespace DevForABuck.Infrastructure.Services
 
         public async Task<Booking> CreateBookingAsync(Booking booking, Stream resumeStream, string fileName)
         {
-            var blobName = $"{Guid.NewGuid()}_{fileName}";
-            var blobClient = _blobContainerClient.GetBlobClient(blobName);
-            await blobClient.UploadAsync(resumeStream);
+            // ✅ Generate unique file name
+            var uniqueFileName = $"{Guid.NewGuid()}_{fileName}";
+
+            // ✅ Get BlobClient
+            var blobClient = _blobContainerClient.GetBlobClient(uniqueFileName);
+
+            // ✅ Upload file to Blob Storage
+            await blobClient.UploadAsync(resumeStream, overwrite: true);
+
+            // ✅ Set ResumeUrl in booking
             booking.ResumeUrl = blobClient.Uri.ToString();
 
+            // ✅ Generate unique ID for Cosmos if needed
+            booking.Id = Guid.NewGuid().ToString();
+
+            // ✅ Save booking to Cosmos DB
             await _container.CreateItemAsync(booking, new PartitionKey(booking.Email));
+
             return booking;
         }
-        
+
         public async Task<IEnumerable<Booking>> GetBookingsByEmailAsync(string email)
         {
             var query = new QueryDefinition("SELECT * FROM c WHERE c.Email = @email")
@@ -66,4 +78,3 @@ namespace DevForABuck.Infrastructure.Services
         }
     }
 }
-

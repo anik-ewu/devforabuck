@@ -16,6 +16,7 @@ namespace DevForABuck.API.Controllers
         }
 
         [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> CreateBooking(
             [FromForm] string name,
             [FromForm] string email,
@@ -24,6 +25,9 @@ namespace DevForABuck.API.Controllers
             [FromForm] DateTime slotTime,
             [FromForm] IFormFile resume)
         {
+            if (resume == null || resume.Length == 0)
+                return BadRequest("Resume file is required.");
+
             var booking = new Booking
             {
                 Name = name,
@@ -33,11 +37,15 @@ namespace DevForABuck.API.Controllers
                 SlotTime = slotTime
             };
 
+            // ✅ Open stream from IFormFile
             using var stream = resume.OpenReadStream();
+
+            // ✅ Pass Stream + FileName to Service
             var createdBooking = await _bookingService.CreateBookingAsync(booking, stream, resume.FileName);
 
-            return Ok(createdBooking);
+            return CreatedAtAction(nameof(CreateBooking), new { id = createdBooking.Id }, createdBooking);
         }
+
 
 
         [HttpGet("{email}")]
