@@ -39,4 +39,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: devforabuck-web-prod
-           package: frontend/devforabuck-web/dist/devforabuck-web/browser
+          package: frontend/devforabuck-web/dist/devforabuck-web/browser
