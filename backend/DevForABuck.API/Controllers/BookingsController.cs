@@ -1,6 +1,6 @@
 using DevForABuck.API.Models;
 using DevForABuck.Application.Interfaces;
-using DevForABuck.Domain.Entities;
+// using DevForABuck.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevForABuck.API.Controllers
@@ -20,13 +20,18 @@ namespace DevForABuck.API.Controllers
         [Consumes("multipart/form-data")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateBooking([FromForm] BookingRequest request)
         {
+            Console.WriteLine($"Name: {request.Name}");
+            Console.WriteLine($"Resume is null? {request.Resume == null}");
+
             if (request.Resume == null || request.Resume.Length == 0)
                 return BadRequest("Resume file is required.");
 
             var booking = new Booking
             {
+                Id = Guid.NewGuid().ToString(),
                 Name = request.Name,
                 Email = request.Email,
                 Stack = request.Stack,
@@ -37,9 +42,13 @@ namespace DevForABuck.API.Controllers
             using var stream = request.Resume.OpenReadStream();
             var createdBooking = await _bookingService.CreateBookingAsync(booking, stream, request.Resume.FileName);
 
-            return CreatedAtAction(nameof(CreateBooking), new { id = createdBooking.Id }, createdBooking);
-        }
+            if (createdBooking == null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to save booking to database.");
+            }
 
+            return CreatedAtAction(nameof(CreateBooking), createdBooking);
+        }
         
         [HttpGet("{email}")]
         public async Task<IActionResult> GetByEmail(string email)

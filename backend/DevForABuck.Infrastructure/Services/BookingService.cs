@@ -1,8 +1,9 @@
 using Azure.Storage.Blobs;
 using DevForABuck.Application.Interfaces;
-using DevForABuck.Domain.Entities;
+// using DevForABuck.Domain.Entities;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace DevForABuck.Infrastructure.Services
 {
@@ -24,32 +25,38 @@ namespace DevForABuck.Infrastructure.Services
 
         public async Task<Booking> CreateBookingAsync(Booking booking, Stream resumeStream, string fileName)
         {
-            // ✅ Generate unique file name
+            // Upload to Blob Storage ✅
             var uniqueFileName = $"{Guid.NewGuid()}_{fileName}";
-
-            // ✅ Get BlobClient
             var blobClient = _blobContainerClient.GetBlobClient(uniqueFileName);
-
-            // ✅ Upload file to Blob Storage
             await blobClient.UploadAsync(resumeStream, overwrite: true);
-
-            // ✅ Set ResumeUrl in booking
             booking.ResumeUrl = blobClient.Uri.ToString();
 
-            // ✅ Generate unique ID for Cosmos if needed
-            booking.Id = Guid.NewGuid().ToString();
+            Console.WriteLine("Booking BEFORE Cosmos insert: " + JsonConvert.SerializeObject(booking));
 
-            // ✅ Save booking to Cosmos DB
-            await _container.CreateItemAsync(booking, new PartitionKey(booking.Email));
-
-            return booking;
+            try
+            {
+                var response = await _container.CreateItemAsync(booking, new PartitionKey(booking.Email));
+                Console.WriteLine("Cosmos insert SUCCESS: " + JsonConvert.SerializeObject(response.Resource));
+                return response.Resource;
+            }
+            catch (CosmosException ex)
+            {
+                Console.WriteLine($"Cosmos insert FAILED: {ex.StatusCode} - {ex.Message}");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected error: {ex.Message}");
+                return null;
+            }
         }
+
 
         public async Task<IEnumerable<Booking>> GetBookingsByEmailAsync(string email)
         {
-            var query = new QueryDefinition("SELECT * FROM c WHERE c.Email = @email")
+            var query = new QueryDefinition("SELECT * FROM c WHERE c.email = @email")
                 .WithParameter("@email", email);
-
+            
             var iterator = _container.GetItemQueryIterator<Booking>(query);
             var results = new List<Booking>();
 

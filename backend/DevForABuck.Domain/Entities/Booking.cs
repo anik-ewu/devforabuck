@@ -1,14 +1,25 @@
-namespace DevForABuck.Domain.Entities
+using Newtonsoft.Json;
+
+public class Booking
 {
-    public class Booking
-    {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Stack { get; set; }
-        public int ExperienceYears { get; set; }
-        public DateTime SlotTime { get; set; }
-        public string ResumeUrl { get; set; }
-        public string Status { get; set; } = "Pending";
-    }
+    [JsonProperty("id")]
+    public string Id { get; set; }
+
+    [JsonProperty("name")]
+    public string Name { get; set; }
+
+    [JsonProperty("email")]
+    public string Email { get; set; }
+
+    [JsonProperty("stack")]
+    public string Stack { get; set; }
+
+    [JsonProperty("experienceYears")]
+    public int ExperienceYears { get; set; }
+
+    [JsonProperty("slotTime")]
+    public DateTime SlotTime { get; set; }
+
+    [JsonProperty("resumeUrl")]
+    public string ResumeUrl { get; set; }
 }
