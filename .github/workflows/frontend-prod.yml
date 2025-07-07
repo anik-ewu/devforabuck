@@ -1,0 +1,42 @@
+name: Deploy Angular Frontend to Azure Dev
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '24.3.0'
+
+      - name: Install dependencies
+        run: |
+          cd frontend/devforabuck-web
+          npm install
+
+      - name: Build Angular app
+        run: |
+          cd frontend/devforabuck-web
+          npm run build --prod
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS_PROD }}
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: devforabuck-web-prod
+          package: frontend/devforabuck-web/dist/*
