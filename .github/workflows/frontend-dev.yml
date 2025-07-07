@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '24.3.0'
+          node-version: '18.x'
 
       - name: Install dependencies
         run: |
@@ -30,6 +30,11 @@ jobs:
           cd frontend/devforabuck-web
           npm run build -- --configuration production
 
+      - name: Zip build output
+        run: |
+          cd frontend/devforabuck-web/dist/devforabuck-web/browser
+          zip -r ../../build.zip .
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
@@ -39,4 +44,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: devforabuck-web-dev
-          package: frontend/devforabuck-web/dist/devforabuck-web/browser
+          package: frontend/devforabuck-web/dist/build.zip
