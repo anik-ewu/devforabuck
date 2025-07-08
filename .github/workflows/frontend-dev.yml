@@ -30,6 +30,12 @@ jobs:
           cd frontend/devforabuck-web
           npm run build --prod
 
+      # 👇 NEW STEP: copy the contents to a temp folder
+      - name: Copy build output to temp folder
+        run: |
+          mkdir frontend/devforabuck-web/deploy
+          cp -r frontend/devforabuck-web/dist/devforabuck-web/browser/* frontend/devforabuck-web/deploy
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
@@ -39,4 +45,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: devforabuck-web-dev
-          package: frontend/devforabuck-web/dist/devforabuck-web/browser
+          package: frontend/devforabuck-web/deploy
