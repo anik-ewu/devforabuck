@@ -3,7 +3,7 @@ name: Deploy Angular Frontend to Azure Dev
 on:
   push:
     branches:
-      - main
+      - dev
     paths:
       - 'frontend/**'
 
@@ -40,3 +40,4 @@ jobs:
         with:
           app-name: devforabuck-web-prod
           package: frontend/devforabuck-web/dist/devforabuck-web/browser
+          startup-command: "pm2 serve /home/site/wwwroot --no-daemon --spa"

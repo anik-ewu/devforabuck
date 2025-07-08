@@ -30,9 +30,6 @@ jobs:
           cd frontend/devforabuck-web
           npm run build --prod
 
-      - name: List built files (Debugging)
-        run: ls -R frontend/devforabuck-web/dist/devforabuck-web/browser
-
       - name: Login to Azure
         uses: azure/login@v1
         with:
