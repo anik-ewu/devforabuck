@@ -15,25 +15,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '24.3.0'
+          node-version: '18.x'
 
       - name: Install dependencies
         run: |
           cd frontend/devforabuck-web
-          npm ci
+          npm install
 
       - name: Build Angular app
         run: |
           cd frontend/devforabuck-web
-          npm run build -- --configuration production
-
-      - name: Zip build output
-        run: |
-          cd frontend/devforabuck-web/dist/devforabuck-web/browser
-          zip -r ../../build.zip .
+          npm run build --configuration production
 
       - name: Login to Azure
         uses: azure/login@v1
@@ -43,5 +38,5 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: devforabuck-web-dev
-          package: frontend/devforabuck-web/dist/build.zip
+          app-name: devforabuck-web-dev   # ✅ This is your Web App name
+          package: frontend/devforabuck-web/dist/devforabuck-web/browser  # ✅ This is your build output folder
