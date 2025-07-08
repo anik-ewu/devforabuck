@@ -12,43 +12,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ✅ Checkout repo
+      # 1️⃣ Checkout your code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # ✅ Setup Node
+      # 2️⃣ Setup Node
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '24.3.0'
+          node-version: '23.3.0'
 
-      # ✅ Install dependencies
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: |
           cd frontend/devforabuck-web
           npm ci
 
-      # ✅ Build Angular app (prod build)
+      # 4️⃣ Build Angular app
       - name: Build Angular app
         run: |
           cd frontend/devforabuck-web
           npm run build --prod
 
-      # ✅ Copy build output to deploy folder
-      - name: Copy build output to temp folder
+      # 5️⃣ Zip the build output to ensure clean structure
+      - name: Zip build output
         run: |
-          mkdir -p frontend/devforabuck-web/deploy
-          cp -r frontend/devforabuck-web/dist/devforabuck-web/browser/* frontend/devforabuck-web/deploy
+          cd frontend/devforabuck-web/dist/devforabuck-web/browser
+          zip -r ../../../deploy.zip .
 
-      # ✅ Login to Azure
-      - name: Azure Login
+      # 6️⃣ Login to Azure
+      - name: Login to Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS_DEV }}
 
-      # ✅ Deploy to Azure App Service
+      # 7️⃣ Deploy the zip to Azure App Service
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: devforabuck-web-dev
-          package: frontend/devforabuck-web/deploy
+          package: frontend/devforabuck-web/dist/deploy.zip
