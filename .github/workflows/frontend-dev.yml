@@ -29,7 +29,7 @@ jobs:
         run: |
           cd frontend/devforabuck-web
           npm run build --prod
-          
+
       - name: List built files (Debugging)
         run: ls -R frontend/devforabuck-web/dist/devforabuck-web/browser
 
@@ -43,3 +43,4 @@ jobs:
         with:
           app-name: devforabuck-web-dev
           package: frontend/devforabuck-web/dist/devforabuck-web/browser
+          startup-command: "pm2 serve /home/site/wwwroot --no-daemon --spa"
