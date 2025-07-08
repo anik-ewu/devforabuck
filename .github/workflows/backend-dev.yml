@@ -1,0 +1,45 @@
+name: Deploy .NET API to Azure Dev via SP
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'backend/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      COSMOSDB_ACCOUNT: ${{ secrets.COSMOS_ACCOUNT_URI_DEV }}
+      COSMOSDB_KEY: ${{ secrets.COSMOS_KEY_DEV }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS_DEV }}
+
+      - name: Restore dependencies
+        run: dotnet restore ./backend/DevForABuck.API
+
+      - name: Build
+        run: dotnet build ./backend/DevForABuck.API --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish ./backend/DevForABuck.API --configuration Release --output ./publish --no-build
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: devforabuck-api-dev
+          package: ./publish

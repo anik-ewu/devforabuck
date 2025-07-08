@@ -1,0 +1,25 @@
+using Newtonsoft.Json;
+
+public class Booking
+{
+    [JsonProperty("id")]
+    public string Id { get; set; }
+
+    [JsonProperty("name")]
+    public string Name { get; set; }
+
+    [JsonProperty("email")]
+    public string Email { get; set; }
+
+    [JsonProperty("stack")]
+    public string Stack { get; set; }
+
+    [JsonProperty("experienceYears")]
+    public int ExperienceYears { get; set; }
+
+    [JsonProperty("slotTime")]
+    public DateTime SlotTime { get; set; }
+
+    [JsonProperty("resumeUrl")]
+    public string ResumeUrl { get; set; }
+}
