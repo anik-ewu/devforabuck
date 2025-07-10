@@ -38,9 +38,8 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "frontend/devforabuck-web"
-          output_location: "frontend/devforabuck-web/dist/devforabuck-web/browser"
+          app_artifact_location: "frontend/devforabuck-web/dist/devforabuck-web/browser"
           skip_app_build: true
-        if: github.ref == 'refs/heads/dev'
 
       - name: Deploy to Azure Static Web Apps (Prod)
         uses: Azure/static-web-apps-deploy@v1
@@ -49,6 +48,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "frontend/devforabuck-web"
-          output_location: "frontend/devforabuck-web/dist/devforabuck-web/browser"
+          app_artifact_location: "frontend/devforabuck-web/dist/devforabuck-web/browser"
           skip_app_build: true
         if: github.ref == 'refs/heads/main'
