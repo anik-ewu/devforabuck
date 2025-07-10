@@ -25,9 +25,9 @@ jobs:
         working-directory: frontend/devforabuck-web
         run: npm install
 
-      - name: Build Angular app
+      - name: Build Angular app (production)
         working-directory: frontend/devforabuck-web
-        run: npm run build -- --prod
+        run: npm run build -- --configuration=production
 
       # Debug step to show directory structure
       - name: Debug directory structure
@@ -42,7 +42,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "frontend/devforabuck-web"
-          app_artifact_location: "frontend/devforabuck-web/dist/devforabuck-web"  # Will adjust after seeing debug output
+          app_artifact_location: "frontend/devforabuck-web/dist/devforabuck-web" # Adjust after debug
           skip_app_build: true
         if: github.ref == 'refs/heads/dev'
 
@@ -54,6 +54,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "frontend/devforabuck-web"
-          app_artifact_location: "frontend/devforabuck-web/dist/devforabuck-web"  # Will adjust after seeing debug output
+          app_artifact_location: "frontend/devforabuck-web/dist/devforabuck-web" # Adjust after debug
           skip_app_build: true
         if: github.ref == 'refs/heads/main'
