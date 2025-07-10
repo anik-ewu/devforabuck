@@ -39,6 +39,7 @@ jobs:
           action: "upload"
           app_location: "frontend/devforabuck-web"
           output_location: "frontend/devforabuck-web/dist/devforabuck-web/browser"
+          skip_app_build: true
         if: github.ref == 'refs/heads/dev'
 
       - name: Deploy to Azure Static Web Apps (Prod)
@@ -49,4 +50,5 @@ jobs:
           action: "upload"
           app_location: "frontend/devforabuck-web"
           output_location: "frontend/devforabuck-web/dist/devforabuck-web/browser"
+          skip_app_build: true
         if: github.ref == 'refs/heads/main'
