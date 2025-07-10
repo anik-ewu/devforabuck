@@ -3,7 +3,8 @@ name: Deploy Angular Frontend to Azure Dev
 on:
   push:
     branches:
-      - dev
+    # TODO: uncomment this to deploy frontend main to azure web app service
+      - main
     paths:
       - 'frontend/**'
 
