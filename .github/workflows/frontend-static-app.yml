@@ -22,14 +22,17 @@ jobs:
           node-version: '24.3.0'
 
       - name: Install dependencies
-        run: |
-          cd frontend/devforabuck-web
-          npm install
+        working-directory: frontend/devforabuck-web
+        run: npm install
 
       - name: Build Angular app
-        run: |
-          cd frontend/devforabuck-web
-          npm run build --prod
+        working-directory: frontend/devforabuck-web
+        run: npm run build -- --prod
+
+      # Debug step to show directory structure
+      - name: Debug directory structure
+        working-directory: frontend/devforabuck-web
+        run: ls -R dist
 
       # ✅ Deploy to Dev — only on dev branch
       - name: Deploy to Azure Static Web Apps (Dev)
@@ -39,7 +42,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "frontend/devforabuck-web"
-          app_artifact_location: "frontend/devforabuck-web/dist/devforabuck-web/browser"
+          app_artifact_location: "frontend/devforabuck-web/dist/devforabuck-web"  # Will adjust after seeing debug output
           skip_app_build: true
         if: github.ref == 'refs/heads/dev'
 
@@ -51,6 +54,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "frontend/devforabuck-web"
-          app_artifact_location: "frontend/devforabuck-web/dist/devforabuck-web/browser"
+          app_artifact_location: "frontend/devforabuck-web/dist/devforabuck-web"  # Will adjust after seeing debug output
           skip_app_build: true
         if: github.ref == 'refs/heads/main'
