@@ -25,6 +25,17 @@ builder.Services.AddSingleton(s =>
     return new BlobServiceClient(config["BlobStorage:ConnectionString"]);
 });
 
+// Cors policty
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        b => b.WithOrigins(
+                "https://dev.devforbuck.com", // ✅ your static app URL
+                "https://www.devforbuck.com") // ✅ prod if needed
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
 var app = builder.Build();
 
 // ✅ Common middlewares
