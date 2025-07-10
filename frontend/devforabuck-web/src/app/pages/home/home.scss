@@ -1,83 +1,136 @@
 .home-container {
-  text-align: center;
-  padding: 4rem 2rem;
-  font-family: Arial, sans-serif;
+  font-family: system-ui, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
 
+  .highlight { color: #e63946; font-weight: 600; }
+
+  /* Hero Section */
   .hero {
-    margin-bottom: 4rem;
+    display: flex;
+    align-items: center;
+    min-height: 30vh;
 
-    h1 {
-      font-size: 2.8rem;
-      line-height: 1.2;
-      margin-bottom: 1rem;
-    }
-
-    .subtitle {
-      font-size: 1.2rem;
-      color: #555;
-      max-width: 600px;
-      margin: 0 auto 2rem;
-    }
-
-    .cta-button {
-      display: inline-block;
-      background: #0d1b2a;
-      color: #fff;
-      padding: 0.75rem 2rem;
-      border-radius: 4px;
-      text-decoration: none;
-      transition: background 0.3s;
-
-      &:hover {
-        background: #e63946;
+    &-content {
+      flex: 1;
+      h1 { font-size: 2.8rem; line-height: 1.2; margin-bottom: 1rem; }
+      .subtitle {
+        font-size: 1.1rem;
+        color: #4a4a4a;
+        max-width: 500px;
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
       }
+    }
+
+    &-image .placeholder-graphic {
+      display: flex;
+      font-size: 4rem;
+      color: #0d1b2a;
+      gap: 0.5rem;
+      .animated-cursor { animation: blink 1s infinite; }
     }
   }
 
-  .how-it-works {
-    margin-bottom: 4rem;
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 2rem;
-      color: #0d1b2a;
+  .cta-button {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+
+    &.primary {
+      background: #e63946;
+      color: white;
+      &:hover { background: #c1121f; transform: translateY(-1px); }
     }
+    &.secondary {
+      border: 2px solid #0d1b2a;
+      color: #0d1b2a;
+      &:hover { background: #f8f9fa; }
+    }
+  }
 
-    .steps {
+  .cta-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  /* Sections */
+  .section-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .how-it-works, .why-choose {
+    padding: 1rem 0;
+
+    .steps, .benefits {
       display: flex;
+      gap: 1rem;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 2rem;
-
-      .step {
-        max-width: 200px;
-
-        h3 {
-          font-size: 1.5rem;
-          margin-bottom: 0.5rem;
-        }
-
-        p {
-          font-size: 1rem;
-          color: #444;
-        }
-      }
     }
   }
 
-  .why-us {
-    max-width: 700px;
-    margin: 0 auto 4rem;
+  .step, .benefit-card {
+    flex: 1;
+    min-width: 240px;
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    text-align: center;
 
-    h2 {
+    &-icon, .icon {
       font-size: 2rem;
       margin-bottom: 1rem;
-      color: #0d1b2a;
+      display: block;
     }
 
-    p {
-      color: #444;
-      line-height: 1.6;
+    h3 { font-size: 1.2rem; margin-bottom: 0.8rem; }
+    p { color: #6c757d; line-height: 1.5; font-size: 0.95rem; }
+  }
+
+  .benefit-card { border-top: 3px solid #e63946; }
+
+  /* Final CTA */
+  .final-cta {
+    text-align: center;
+    padding: 2.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 2rem 0;
+
+    h2 { font-size: 2rem; margin-bottom: 1rem; }
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .home-container {
+    .hero {
+      flex-direction: column;
+      min-height: auto;
+      padding: 2rem 0;
+
+      &-content {
+        h1 { font-size: 2rem; }
+        .subtitle { font-size: 1rem; }
+      }
+
+      &-image .placeholder-graphic { font-size: 3rem; margin-top: 1rem; }
     }
+
+    .cta-group { flex-direction: column; }
+
+    .section-title { font-size: 1.8rem; }
+
+    .step, .benefit-card { min-width: 100%; }
   }
 }
