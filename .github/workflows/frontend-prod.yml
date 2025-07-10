@@ -4,7 +4,7 @@ on:
   push:
     branches:
     # TODO: uncomment this to deploy frontend main to azure web app service
-      - main
+      # - main
     paths:
       - 'frontend/**'
 
