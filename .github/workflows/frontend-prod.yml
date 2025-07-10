@@ -1,10 +1,9 @@
 name: Deploy Angular Frontend to Azure Dev
 
 on:
-  push:
+  workflow_dispatch:
     branches:
-    # TODO: uncomment this to deploy frontend main to azure web app service
-      # - main
+      - main
     paths:
       - 'frontend/**'
 
