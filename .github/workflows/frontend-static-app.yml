@@ -29,11 +29,6 @@ jobs:
         working-directory: frontend/devforabuck-web
         run: npm run build -- --configuration=production
 
-      # Debug step to show directory structure
-      - name: Debug directory structure
-        working-directory: frontend/devforabuck-web
-        run: ls -R dist
-
       # ✅ Deploy to Dev — only on dev branch
       - name: Deploy to Azure Static Web Apps (Dev)
         uses: Azure/static-web-apps-deploy@v1
@@ -42,7 +37,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "frontend/devforabuck-web"
-          app_artifact_location: "frontend/devforabuck-web/dist/devforabuck-web" # Adjust after debug
+          app_artifact_location: "frontend/devforabuck-web/dist/devforabuck-web/browser"  # Corrected path
           skip_app_build: true
         if: github.ref == 'refs/heads/dev'
 
@@ -54,6 +49,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "frontend/devforabuck-web"
-          app_artifact_location: "frontend/devforabuck-web/dist/devforabuck-web" # Adjust after debug
+          app_artifact_location: "frontend/devforabuck-web/dist/devforabuck-web/browser"  # Corrected path
           skip_app_build: true
         if: github.ref == 'refs/heads/main'
