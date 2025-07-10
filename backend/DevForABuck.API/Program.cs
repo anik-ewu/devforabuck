@@ -30,8 +30,9 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         b => b.WithOrigins(
-                "https://dev.devforbuck.com", // ✅ your static app URL
-                "https://www.devforbuck.com") // ✅ prod if needed
+                "http://localhost:4200",
+                "https://dev.devforbuck.com",
+                "https://www.devforbuck.com")
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
@@ -40,6 +41,7 @@ var app = builder.Build();
 
 // ✅ Common middlewares
 app.UseHttpsRedirection();
+app.UseCors("AllowFrontend");
 app.UseAuthorization();
 
 // ✅ Always enable Swagger in all envs
