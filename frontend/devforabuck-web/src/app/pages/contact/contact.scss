@@ -1,36 +1,83 @@
-.contact-container {
-  max-width: 600px;
-  margin: 0 auto;          // centers the container
-  padding: 2rem;
-  text-align: center;
+// // html, body {
+// //   height: 100%;
+// //   margin: 0;
+// // }
 
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
+// // body {
+// //   display: flex;
+// //   flex-direction: column;
+// //   min-height: 100vh;
+// // }
 
-  .description {
-    margin-bottom: 2rem;
-    color: #666;
-    font-size: 1.1rem;
-  }
+// // .page-wrapper {
+// //   display: flex;
+// //   flex-direction: column;
+// //   flex: 1;
+// // }
 
-  .contact-item {
-    margin-bottom: 1.2rem;
+// .content {
+//   flex: 1;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: flex-start; // content sticks to top
+//   align-items: center;
+//   padding: 3rem 1rem; // top/bottom spacing, NOT too big
+//   box-sizing: border-box; // ✅ avoids overflow from padding
+// }
 
-    .label {
-      display: block;
-      font-weight: bold;
-      color: #333;
-    }
+// .contact-hero {
+//   text-align: center;
+//   margin-bottom: 2rem;
 
-    a {
-      color: #0d6efd;       // Bootstrap blue or adjust to your palette
-      text-decoration: none;
+//   h1 {
+//     font-size: 2.2rem;
+//     margin-bottom: 0.5rem;
+//     color: #0d1b2a;
+//   }
 
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-}
+//   p {
+//     color: #555;
+//     font-size: 1.1rem;
+//     max-width: 600px;
+//   }
+// }
+
+// .contact-details {
+//   text-align: center;
+
+//   .detail {
+//     margin-bottom: 1rem;
+
+//     .label {
+//       font-weight: bold;
+//       margin-right: 0.5rem;
+//     }
+
+//     a {
+//       color: #0d6efd;
+//       text-decoration: none;
+
+//       &:hover {
+//         text-decoration: underline;
+//       }
+//     }
+//   }
+// }
+
+// // .footer {
+// //   flex-shrink: 0;
+// //   background: #0d1b2a;
+// //   color: #f9f9f9;
+// //   text-align: center;
+// //   padding: 0.75rem 1rem;
+// //   font-size: 0.9rem;
+
+// //   a {
+// //     color: #e63946;
+// //     text-decoration: none;
+
+// //     &:hover {
+// //       text-decoration: underline;
+// //     }
+// //   }
+// // }
