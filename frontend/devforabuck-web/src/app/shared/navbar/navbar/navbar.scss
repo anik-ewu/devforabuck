@@ -1,14 +1,33 @@
-nav {
-  background: #333;
-  padding: 1rem;
+.navbar {
+  display: flex;
+  align-items: center;
+  // justify-content: space-between;
+  background: #0d1b2a;        // ✅ darker, modern
+  padding: 1rem 2rem;
 
-  a {
-    color: white;
-    margin-right: 1rem;
-    text-decoration: none;
+  .logo img {
+    height: 40px;
+    margin-right: 32px;
+    border-radius: 50%;
+  }
 
-    &:hover {
-      text-decoration: underline;
+  .links {
+    display: flex;
+    gap: 1.5rem;
+
+    a {
+      color: #f9f9f9;               // ✅ off-white, easy to read
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+
+      &:hover {
+        color: #e63946;             // ✅ your brand accent red
+      }
+
+      &.active {
+        border-bottom: 2px solid #e63946;  // optional active indicator
+      }
     }
   }
 }
