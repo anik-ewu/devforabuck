@@ -60,8 +60,23 @@ namespace DevForABuck.API.Controllers
         [HttpGet("admin/all")]
         public async Task<IActionResult> GetAll()
         {
-            var bookings = await _bookingService.GetAllBookingsAsync();
-            return Ok(bookings);
+            Console.WriteLine("📌 [BookingsController] GetAll called");
+
+            try
+            {
+                var bookings = await _bookingService.GetAllBookingsAsync();
+                Console.WriteLine($"✅ [BookingsController] Retrieved {bookings?.Count() ?? 0} bookings.");
+
+                return Ok(bookings);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ [BookingsController] Exception: {ex.Message}");
+                Console.WriteLine(ex.StackTrace);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching bookings.");
+            }
         }
+
     }
 }
