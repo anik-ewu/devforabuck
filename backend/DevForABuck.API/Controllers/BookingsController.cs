@@ -88,6 +88,8 @@ namespace DevForABuck.API.Controllers
         {
             _logger.LogInformation("📌 [GetAll] Called");
 
+            return Ok(new { Message = "Api is working problem with config" });
+
             try
             {
                 var bookings = await _bookingService.GetAllBookingsAsync();
