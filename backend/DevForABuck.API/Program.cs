@@ -25,6 +25,10 @@ builder.Services.AddSingleton(s =>
     return new BlobServiceClient(config["BlobStorage:ConnectionString"]);
 });
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole(); // This connects logs to App Service Log Stream!
+
+
 // Cors policty
 builder.Services.AddCors(options =>
 {

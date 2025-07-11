@@ -1,7 +1,7 @@
 using DevForABuck.API.Models;
 using DevForABuck.Application.Interfaces;
-// using DevForABuck.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace DevForABuck.API.Controllers
 {
@@ -10,10 +10,12 @@ namespace DevForABuck.API.Controllers
     public class BookingsController : ControllerBase
     {
         private readonly IBookingService _bookingService;
+        private readonly ILogger<BookingsController> _logger;
 
-        public BookingsController(IBookingService bookingService)
+        public BookingsController(IBookingService bookingService, ILogger<BookingsController> logger)
         {
             _bookingService = bookingService;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -23,11 +25,14 @@ namespace DevForABuck.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateBooking([FromForm] BookingRequest request)
         {
-            Console.WriteLine($"Name: {request.Name}");
-            Console.WriteLine($"Resume is null? {request.Resume == null}");
+            _logger.LogInformation("📌 [CreateBooking] Name: {Name}", request.Name);
+            _logger.LogInformation("📌 [CreateBooking] Resume is null? {IsNull}", request.Resume == null);
 
             if (request.Resume == null || request.Resume.Length == 0)
+            {
+                _logger.LogWarning("❌ [CreateBooking] Resume file is missing.");
                 return BadRequest("Resume file is required.");
+            }
 
             var booking = new Booking
             {
@@ -39,44 +44,61 @@ namespace DevForABuck.API.Controllers
                 SlotTime = request.SlotTime
             };
 
-            using var stream = request.Resume.OpenReadStream();
-            var createdBooking = await _bookingService.CreateBookingAsync(booking, stream, request.Resume.FileName);
-
-            if (createdBooking == null)
+            try
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to save booking to database.");
-            }
+                using var stream = request.Resume.OpenReadStream();
+                var createdBooking = await _bookingService.CreateBookingAsync(booking, stream, request.Resume.FileName);
 
-            return CreatedAtAction(nameof(CreateBooking), createdBooking);
+                if (createdBooking == null)
+                {
+                    _logger.LogError("❌ [CreateBooking] Failed to save booking to database.");
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Failed to save booking to database.");
+                }
+
+                _logger.LogInformation("✅ [CreateBooking] Booking created with ID: {Id}", createdBooking.Id);
+                return CreatedAtAction(nameof(CreateBooking), createdBooking);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "❌ [CreateBooking] Exception occurred.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while creating booking.");
+            }
         }
-        
+
         [HttpGet("{email}")]
         public async Task<IActionResult> GetByEmail(string email)
         {
-            var bookings = await _bookingService.GetBookingsByEmailAsync(email);
-            return Ok(bookings);
+            _logger.LogInformation("📌 [GetByEmail] Fetching bookings for email: {Email}", email);
+
+            try
+            {
+                var bookings = await _bookingService.GetBookingsByEmailAsync(email);
+                _logger.LogInformation("✅ [GetByEmail] Retrieved {Count} bookings.", bookings?.Count() ?? 0);
+                return Ok(bookings);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "❌ [GetByEmail] Exception occurred.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching bookings.");
+            }
         }
 
         [HttpGet("admin/all")]
         public async Task<IActionResult> GetAll()
         {
-            Console.WriteLine("📌 [BookingsController] GetAll called");
+            _logger.LogInformation("📌 [GetAll] Called");
 
             try
             {
                 var bookings = await _bookingService.GetAllBookingsAsync();
-                Console.WriteLine($"✅ [BookingsController] Retrieved {bookings?.Count() ?? 0} bookings.");
-
+                _logger.LogInformation("✅ [GetAll] Retrieved {Count} bookings.", bookings?.Count() ?? 0);
                 return Ok(bookings);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ [BookingsController] Exception: {ex.Message}");
-                Console.WriteLine(ex.StackTrace);
-
+                _logger.LogError(ex, "❌ [GetAll] Exception occurred.");
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching bookings.");
             }
         }
-
     }
 }
