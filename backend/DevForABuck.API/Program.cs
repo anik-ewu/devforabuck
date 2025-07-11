@@ -28,13 +28,17 @@ builder.Services.AddSingleton(s =>
 // Cors policty
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend",
-        b => b.WithOrigins(
-                "http://localhost:4200",
-                "https://dev.devforbuck.com",
-                "https://www.devforbuck.com")
+    options.AddPolicy("AllowFrontend", builder =>
+    {
+        builder.WithOrigins(
+                "http://localhost:4200", // Local Angular dev
+                "https://dev.devforbuck.com", // Dev environment
+                "https://www.devforbuck.com") // Production
             .AllowAnyHeader()
-            .AllowAnyMethod());
+            .AllowAnyMethod();
+        // TODO: add later
+        // .AllowCredentials();                  // Add this if using cookies/auth
+    });
 });
 
 var app = builder.Build();

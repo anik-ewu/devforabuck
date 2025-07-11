@@ -9,7 +9,7 @@
   .hero {
     display: flex;
     align-items: center;
-    min-height: 40vh;
+    min-height: 20vh;
 
     &-content {
       flex: 1;
@@ -68,7 +68,7 @@
   }
 
   .how-it-works, .why-choose {
-    padding: 1rem 0;
+    padding: 2rem 0;
 
     .steps, .benefits {
       display: flex;
@@ -118,6 +118,8 @@
       flex-direction: column;
       min-height: auto;
       padding: 2rem 0;
+      margin-left: 4px;
+      margin-right: 4px;
 
       &-content {
         h1 { font-size: 2rem; }
@@ -127,7 +129,10 @@
       &-image .placeholder-graphic { font-size: 3rem; margin-top: 1rem; }
     }
 
-    .cta-group { flex-direction: column; }
+    .cta-group {
+      flex-direction: column;
+      text-align: center;
+    }
 
     .section-title { font-size: 1.8rem; }
 
