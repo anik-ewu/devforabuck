@@ -16,13 +16,16 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddSingleton(s =>
 {
     var config = s.GetRequiredService<IConfiguration>();
-    return new CosmosClient(config["CosmosDb:Account"], config["CosmosDb:Key"]);
+    var account = config["CosmosDb:Account"] ?? throw new InvalidOperationException($"CosmosDb account not found");
+    var key = config["CosmosDb:Key"] ?? throw new InvalidOperationException($"CosmosDb key not found");
+    return new CosmosClient(account, key);
 });
 
 builder.Services.AddSingleton(s =>
 {
     var config = s.GetRequiredService<IConfiguration>();
-    return new BlobServiceClient(config["BlobStorage:ConnectionString"]);
+    var connectionString = config["BlobStorage:ConnectionString"] ?? throw new InvalidOperationException($"CosmosDb connection string not found");
+    return new BlobServiceClient(connectionString);
 });
 
 builder.Logging.ClearProviders();
