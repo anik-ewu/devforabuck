@@ -44,8 +44,8 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // ✅ Common middlewares
-app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
+app.UseHttpsRedirection();
 app.UseAuthorization();
 
 // ✅ Always enable Swagger in all envs
