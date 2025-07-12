@@ -96,8 +96,12 @@ namespace DevForABuck.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "❌ [GetAll] Exception occurred.");
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching bookings.");
+                return StatusCode(500, new
+                {
+                    Message = "An unexpected error occurred.",
+                    ExceptionMessage = ex.Message,
+                    StackTrace = ex.StackTrace // Optional for dev, not recommended for prod
+                });
             }
         }
     }
