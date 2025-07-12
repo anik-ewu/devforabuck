@@ -98,16 +98,22 @@ namespace DevForABuck.API.Controllers
         {
             // _logger.LogInformation("📌 [GetAll] Called");
             var account = _config["CosmosDb:Account"];
-            var key = _config["CosmosDb:Key"];
+            var cosmoskey = _config["CosmosDb:Key"];
+            var containerName = _config["CosmosDb:ContainerName"];
+            var databaseName = _config["CosmosDb:DatabaseName"];
+            var connectionString = _config["BlobStorage:ConnectionString"];
 
             _logger.LogInformation("CosmosDb:Account = {Account}", account);
-            _logger.LogInformation("CosmosDb:Key is {Status}", string.IsNullOrEmpty(key) ? "NULL or EMPTY" : "SET");
-
+            _logger.LogInformation("CosmosDb:Key is {Status}", string.IsNullOrEmpty(cosmoskey) ? "NULL or EMPTY" : "SET");
+            
             return Ok(new
             {
                 Message = "API is working - config check",
                 CosmosAccount = account,
-                CosmosKeyStatus = string.IsNullOrEmpty(key) ? "NULL or EMPTY" : "SET"
+                cosmoskey = string.IsNullOrEmpty(cosmoskey) ? "NULL or EMPTY" : cosmoskey,
+                containerName = containerName,
+                databaseName = databaseName,
+                connectionString = connectionString,
             });
 
             // try
