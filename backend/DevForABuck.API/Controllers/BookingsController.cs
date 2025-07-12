@@ -9,22 +9,22 @@ namespace DevForABuck.API.Controllers
     [Route("api/[controller]")]
     public class BookingsController : ControllerBase
     {
-        // private readonly IBookingService _bookingService;
+        private readonly IBookingService _bookingService;
         private readonly ILogger<BookingsController> _logger;
 
         private readonly IConfiguration _config;
-        //
-        // public BookingsController(IBookingService bookingService, ILogger<BookingsController> logger)
-        // {
-        //     _bookingService = bookingService;
-        // _logger = logger;
-        // }
-
-        public BookingsController(IConfiguration config, ILogger<BookingsController> logger)
+        
+        public BookingsController(IBookingService bookingService, ILogger<BookingsController> logger)
         {
+            _bookingService = bookingService;
             _logger = logger;
-            _config = config;
         }
+
+        // public BookingsController(IConfiguration config, ILogger<BookingsController> logger)
+        // {
+        //     _logger = logger;
+        //     _config = config;
+        // }
 
         [HttpPost]
         [Consumes("multipart/form-data")]
@@ -77,19 +77,19 @@ namespace DevForABuck.API.Controllers
         [HttpGet("{email}")]
         public async Task<IActionResult> GetByEmail(string email)
         {
-            // _logger.LogInformation("📌 [GetByEmail] Fetching bookings for email: {Email}", email);
-            //
-            // try
-            // {
-            //     var bookings = await _bookingService.GetBookingsByEmailAsync(email);
-            //     _logger.LogInformation("✅ [GetByEmail] Retrieved {Count} bookings.", bookings?.Count() ?? 0);
-            //     return Ok(bookings);
-            // }
-            // catch (Exception ex)
-            // {
-            //     _logger.LogError(ex, "❌ [GetByEmail] Exception occurred.");
-            //     return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching bookings.");
-            // }
+            _logger.LogInformation("📌 [GetByEmail] Fetching bookings for email: {Email}", email);
+            
+            try
+            {
+                var bookings = await _bookingService.GetBookingsByEmailAsync(email);
+                _logger.LogInformation("✅ [GetByEmail] Retrieved {Count} bookings.", bookings?.Count() ?? 0);
+                return Ok(bookings);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "❌ [GetByEmail] Exception occurred.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching bookings.");
+            }
             return Ok();
         }
 
@@ -97,36 +97,36 @@ namespace DevForABuck.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             // _logger.LogInformation("📌 [GetAll] Called");
-            var account = _config["CosmosDb:Account"];
-            var cosmoskey = _config["CosmosDb:Key"];
-            var containerName = _config["CosmosDb:ContainerName"];
-            var databaseName = _config["CosmosDb:DatabaseName"];
-            var connectionString = _config["BlobStorage:ConnectionString"];
+            // var account = _config["CosmosDb:Account"];
+            // var cosmoskey = _config["CosmosDb:Key"];
+            // var containerName = _config["CosmosDb:ContainerName"];
+            // var databaseName = _config["CosmosDb:DatabaseName"];
+            // var connectionString = _config["BlobStorage:ConnectionString"];
+            //
+            // _logger.LogInformation("CosmosDb:Account = {Account}", account);
+            // _logger.LogInformation("CosmosDb:Key is {Status}", string.IsNullOrEmpty(cosmoskey) ? "NULL or EMPTY" : "SET");
+            //
+            // return Ok(new
+            // {
+            //     Message = "API is working - config check",
+            //     CosmosAccount = account,
+            //     cosmoskey = string.IsNullOrEmpty(cosmoskey) ? "NULL or EMPTY" : cosmoskey,
+            //     containerName = containerName,
+            //     databaseName = databaseName,
+            //     connectionString = connectionString,
+            // });
 
-            _logger.LogInformation("CosmosDb:Account = {Account}", account);
-            _logger.LogInformation("CosmosDb:Key is {Status}", string.IsNullOrEmpty(cosmoskey) ? "NULL or EMPTY" : "SET");
-            
-            return Ok(new
+            try
             {
-                Message = "API is working - config check",
-                CosmosAccount = account,
-                cosmoskey = string.IsNullOrEmpty(cosmoskey) ? "NULL or EMPTY" : cosmoskey,
-                containerName = containerName,
-                databaseName = databaseName,
-                connectionString = connectionString,
-            });
-
-            // try
-            // {
-            //     var bookings = await _bookingService.GetAllBookingsAsync();
-            //     _logger.LogInformation("✅ [GetAll] Retrieved {Count} bookings.", bookings?.Count() ?? 0);
-            //     return Ok(bookings);
-            // }
-            // catch (Exception ex)
-            // {
-            //     _logger.LogError(ex, "❌ [GetAll] Exception occurred.");
-            //     return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching bookings.");
-            // }
+                var bookings = await _bookingService.GetAllBookingsAsync();
+                _logger.LogInformation("✅ [GetAll] Retrieved {Count} bookings.", bookings?.Count() ?? 0);
+                return Ok(bookings);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "❌ [GetAll] Exception occurred.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching bookings.");
+            }
         }
     }
 }

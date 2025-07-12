@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // ✅ DI for custom services
-// builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 
 builder.Services.AddSingleton(s =>
 {
@@ -34,12 +34,12 @@ builder.Services.AddSingleton(s =>
 });
 
 
-// builder.Services.AddSingleton(s =>
-// {
-//     var config = s.GetRequiredService<IConfiguration>();
-//     var connectionString = config["BlobStorage:ConnectionString"] ?? throw new InvalidOperationException($"CosmosDb connection string not found");
-//     return new BlobServiceClient(connectionString);
-// });
+builder.Services.AddSingleton(s =>
+{
+    var config = s.GetRequiredService<IConfiguration>();
+    var connectionString = config["BlobStorage:ConnectionString"] ?? throw new InvalidOperationException($"CosmosDb connection string not found");
+    return new BlobServiceClient(connectionString);
+});
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole(); // This connects logs to App Service Log Stream!
