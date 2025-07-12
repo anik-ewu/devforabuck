@@ -10,6 +10,7 @@ export interface BookingList {
   stack: string;
   experienceYears: number;
   slotTime: string;
+  resumeUrl: string;
 }
 
 @Injectable({
