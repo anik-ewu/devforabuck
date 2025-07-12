@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // ✅ DI for custom services
-builder.Services.AddScoped<IBookingService, BookingService>();
+// builder.Services.AddScoped<IBookingService, BookingService>();
 
 // builder.Services.AddSingleton(s =>
 // {
