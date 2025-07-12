@@ -103,7 +103,12 @@ namespace DevForABuck.API.Controllers
             _logger.LogInformation("CosmosDb:Account = {Account}", account);
             _logger.LogInformation("CosmosDb:Key is {Status}", string.IsNullOrEmpty(key) ? "NULL or EMPTY" : "SET");
 
-            return Ok(new { Message = "Api is working problem with config" });
+            return Ok(new
+            {
+                Message = "API is working - config check",
+                CosmosAccount = account,
+                CosmosKeyStatus = string.IsNullOrEmpty(key) ? "NULL or EMPTY" : "SET"
+            });
 
             // try
             // {
