@@ -10,13 +10,21 @@ namespace DevForABuck.API.Controllers
     public class BookingsController : ControllerBase
     {
         // private readonly IBookingService _bookingService;
-        // private readonly ILogger<BookingsController> _logger;
+        private readonly ILogger<BookingsController> _logger;
+
+        private readonly IConfiguration _config;
         //
         // public BookingsController(IBookingService bookingService, ILogger<BookingsController> logger)
         // {
         //     _bookingService = bookingService;
-        //     _logger = logger;
+        // _logger = logger;
         // }
+
+        public BookingsController(IConfiguration config, ILogger<BookingsController> logger)
+        {
+            _logger = logger;
+            _config = config;
+        }
 
         [HttpPost]
         [Consumes("multipart/form-data")]
@@ -89,6 +97,11 @@ namespace DevForABuck.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             // _logger.LogInformation("📌 [GetAll] Called");
+            var account = _config["CosmosDb:Account"];
+            var key = _config["CosmosDb:Key"];
+
+            _logger.LogInformation("CosmosDb:Account = {Account}", account);
+            _logger.LogInformation("CosmosDb:Key is {Status}", string.IsNullOrEmpty(key) ? "NULL or EMPTY" : "SET");
 
             return Ok(new { Message = "Api is working problem with config" });
 
