@@ -15,21 +15,9 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 
 builder.Services.AddSingleton(s =>
 {
-    var logger = s.GetRequiredService<ILogger<Program>>();
     var config = s.GetRequiredService<IConfiguration>();
-
     var account = config["CosmosDb:Account"];
     var key = config["CosmosDb:Key"];
-
-    logger.LogInformation("CosmosDb:Account = {Account}", account);
-    logger.LogInformation("CosmosDb:Key is {Status}", string.IsNullOrEmpty(key) ? "NULL or EMPTY" : "SET");
-
-    if (account == null || key == null)
-    {
-        logger.LogError("❌ Cosmos DB config is missing");
-        throw new InvalidOperationException("Missing CosmosDb settings");
-    }
-
     return new CosmosClient(account, key);
 });
 

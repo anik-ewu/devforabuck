@@ -12,19 +12,11 @@ namespace DevForABuck.API.Controllers
         private readonly IBookingService _bookingService;
         private readonly ILogger<BookingsController> _logger;
 
-        private readonly IConfiguration _config;
-        
         public BookingsController(IBookingService bookingService, ILogger<BookingsController> logger)
         {
             _bookingService = bookingService;
             _logger = logger;
         }
-
-        // public BookingsController(IConfiguration config, ILogger<BookingsController> logger)
-        // {
-        //     _logger = logger;
-        //     _config = config;
-        // }
 
         [HttpPost]
         [Consumes("multipart/form-data")]
@@ -33,44 +25,44 @@ namespace DevForABuck.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateBooking([FromForm] BookingRequest request)
         {
-            // _logger.LogInformation("📌 [CreateBooking] Name: {Name}", request.Name);
-            // _logger.LogInformation("📌 [CreateBooking] Resume is null? {IsNull}", request.Resume == null);
-            //
-            // if (request.Resume == null || request.Resume.Length == 0)
-            // {
-            //     _logger.LogWarning("❌ [CreateBooking] Resume file is missing.");
-            //     return BadRequest("Resume file is required.");
-            // }
-            //
-            // var booking = new Booking
-            // {
-            //     Id = Guid.NewGuid().ToString(),
-            //     Name = request.Name,
-            //     Email = request.Email,
-            //     Stack = request.Stack,
-            //     ExperienceYears = request.ExperienceYears,
-            //     SlotTime = request.SlotTime
-            // };
-            //
-            // try
-            // {
-            //     using var stream = request.Resume.OpenReadStream();
-            //     var createdBooking = await _bookingService.CreateBookingAsync(booking, stream, request.Resume.FileName);
-            //
-            //     if (createdBooking == null)
-            //     {
-            //         _logger.LogError("❌ [CreateBooking] Failed to save booking to database.");
-            //         return StatusCode(StatusCodes.Status500InternalServerError, "Failed to save booking to database.");
-            //     }
-            //
-            //     _logger.LogInformation("✅ [CreateBooking] Booking created with ID: {Id}", createdBooking.Id);
-            //     return CreatedAtAction(nameof(CreateBooking), createdBooking);
-            // }
-            // catch (Exception ex)
-            // {
-            //     _logger.LogError(ex, "❌ [CreateBooking] Exception occurred.");
-            //     return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while creating booking.");
-            // }
+            _logger.LogInformation("📌 [CreateBooking] Name: {Name}", request.Name);
+            _logger.LogInformation("📌 [CreateBooking] Resume is null? {IsNull}", request.Resume == null);
+            
+            if (request.Resume == null || request.Resume.Length == 0)
+            {
+                _logger.LogWarning("❌ [CreateBooking] Resume file is missing.");
+                return BadRequest("Resume file is required.");
+            }
+            
+            var booking = new Booking
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = request.Name,
+                Email = request.Email,
+                Stack = request.Stack,
+                ExperienceYears = request.ExperienceYears,
+                SlotTime = request.SlotTime
+            };
+            
+            try
+            {
+                using var stream = request.Resume.OpenReadStream();
+                var createdBooking = await _bookingService.CreateBookingAsync(booking, stream, request.Resume.FileName);
+            
+                if (createdBooking == null)
+                {
+                    _logger.LogError("❌ [CreateBooking] Failed to save booking to database.");
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Failed to save booking to database.");
+                }
+            
+                _logger.LogInformation("✅ [CreateBooking] Booking created with ID: {Id}", createdBooking.Id);
+                return CreatedAtAction(nameof(CreateBooking), createdBooking);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "❌ [CreateBooking] Exception occurred.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while creating booking.");
+            }
             return Ok();
         }
 
@@ -96,26 +88,6 @@ namespace DevForABuck.API.Controllers
         [HttpGet("admin/all")]
         public async Task<IActionResult> GetAll()
         {
-            // _logger.LogInformation("📌 [GetAll] Called");
-            // var account = _config["CosmosDb:Account"];
-            // var cosmoskey = _config["CosmosDb:Key"];
-            // var containerName = _config["CosmosDb:ContainerName"];
-            // var databaseName = _config["CosmosDb:DatabaseName"];
-            // var connectionString = _config["BlobStorage:ConnectionString"];
-            //
-            // _logger.LogInformation("CosmosDb:Account = {Account}", account);
-            // _logger.LogInformation("CosmosDb:Key is {Status}", string.IsNullOrEmpty(cosmoskey) ? "NULL or EMPTY" : "SET");
-            //
-            // return Ok(new
-            // {
-            //     Message = "API is working - config check",
-            //     CosmosAccount = account,
-            //     cosmoskey = string.IsNullOrEmpty(cosmoskey) ? "NULL or EMPTY" : cosmoskey,
-            //     containerName = containerName,
-            //     databaseName = databaseName,
-            //     connectionString = connectionString,
-            // });
-
             try
             {
                 var bookings = await _bookingService.GetAllBookingsAsync();
