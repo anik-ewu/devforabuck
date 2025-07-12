@@ -1,6 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookingList, BookingsService } from '../../service/bookings';
+import { environment } from '../../../environments/environment';
+// import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-bookings',
@@ -14,7 +16,7 @@ export class Bookings implements OnInit {
   private bookingsService = inject(BookingsService);
 
   ngOnInit() {
-    console.log("Hi there");
+    console.log("Fetching bookings from:", environment.apiUrl);
     this.bookingsService.getAllBookings().subscribe({
       next: (data) => {
         console.log('Bookings:', data);

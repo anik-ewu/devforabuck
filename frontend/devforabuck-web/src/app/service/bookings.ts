@@ -1,7 +1,7 @@
-// src/app/services/bookings.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface BookingList {
   id: string;
@@ -16,11 +16,15 @@ export interface BookingList {
   providedIn: 'root'
 })
 export class BookingsService {
-  private baseUrl = 'https://devforabuck-api-dev-b8fga8a9gsezg4g8.southeastasia-01.azurewebsites.net/api';  // Replace with your API base URL
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
   getAllBookings(): Observable<BookingList[]> {
-    return this.http.get<BookingList[]>(`${this.baseUrl}/admin/all`);
+    return this.http.get<BookingList[]>(`${this.apiUrl}/bookings/admin/all`);
+  }
+
+  getBookingsByEmail(email: string): Observable<BookingList[]> {
+    return this.http.get<BookingList[]>(`${this.apiUrl}/bookings/${email}`);
   }
 }

@@ -4,7 +4,7 @@ import { Footer } from '../../shared/footer/footer';
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [Footer],
+  imports: [],
   templateUrl: './contact.html',
   styleUrl: './contact.scss'
 })
