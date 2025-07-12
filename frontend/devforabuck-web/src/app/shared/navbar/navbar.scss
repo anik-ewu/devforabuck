@@ -1,9 +1,10 @@
 .navbar {
   display: flex;
   align-items: center;
-  // justify-content: space-between;
-  background: #0d1b2a;        // ✅ darker, modern
+  // justify-content: space-between; // helps push links away nicely
+  background: #0d1b2a;
   padding: 1rem 2rem;
+  flex-wrap: wrap; // allows items to wrap on small screens
 
   .logo img {
     height: 40px;
@@ -16,18 +17,35 @@
     gap: 1.5rem;
 
     a {
-      color: #f9f9f9;               // ✅ off-white, easy to read
+      color: #f9f9f9;
       text-decoration: none;
       font-weight: 500;
       transition: color 0.3s;
 
       &:hover {
-        color: #e63946;             // ✅ your brand accent red
+        color: #e63946;
       }
 
       &.active {
-        border-bottom: 2px solid #e63946;  // optional active indicator
+        border-bottom: 2px solid #e63946;
       }
+    }
+  }
+
+  // TODO: open for vertical navbar
+
+  @media (max-width: 768px) {
+    // flex-direction: column;   // stack logo + links vertically
+    // align-items: flex-start;
+
+    .logo {
+      // margin-bottom: 1rem;    // spacing between logo and links
+      margin-right: 16px;
+    }
+
+    .links {
+      // flex-direction: column; // stack links vertically
+      gap: 0.50rem;           // reduce space
     }
   }
 }
