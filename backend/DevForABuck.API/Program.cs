@@ -13,33 +13,33 @@ builder.Services.AddSwaggerGen();
 // ✅ DI for custom services
 builder.Services.AddScoped<IBookingService, BookingService>();
 
-builder.Services.AddSingleton(s =>
-{
-    var logger = s.GetRequiredService<ILogger<Program>>();
-    var config = s.GetRequiredService<IConfiguration>();
+// builder.Services.AddSingleton(s =>
+// {
+//     var logger = s.GetRequiredService<ILogger<Program>>();
+//     var config = s.GetRequiredService<IConfiguration>();
+//
+//     var account = config["CosmosDb:Account"];
+//     var key = config["CosmosDb:Key"];
+//
+//     logger.LogInformation("CosmosDb:Account = {Account}", account);
+//     logger.LogInformation("CosmosDb:Key is {Status}", string.IsNullOrEmpty(key) ? "NULL or EMPTY" : "SET");
+//
+//     if (account == null || key == null)
+//     {
+//         logger.LogError("❌ Cosmos DB config is missing");
+//         throw new InvalidOperationException("Missing CosmosDb settings");
+//     }
+//
+//     return new CosmosClient(account, key);
+// });
 
-    var account = config["CosmosDb:Account"];
-    var key = config["CosmosDb:Key"];
 
-    logger.LogInformation("CosmosDb:Account = {Account}", account);
-    logger.LogInformation("CosmosDb:Key is {Status}", string.IsNullOrEmpty(key) ? "NULL or EMPTY" : "SET");
-
-    if (account == null || key == null)
-    {
-        logger.LogError("❌ Cosmos DB config is missing");
-        throw new InvalidOperationException("Missing CosmosDb settings");
-    }
-
-    return new CosmosClient(account, key);
-});
-
-
-builder.Services.AddSingleton(s =>
-{
-    var config = s.GetRequiredService<IConfiguration>();
-    var connectionString = config["BlobStorage:ConnectionString"] ?? throw new InvalidOperationException($"CosmosDb connection string not found");
-    return new BlobServiceClient(connectionString);
-});
+// builder.Services.AddSingleton(s =>
+// {
+//     var config = s.GetRequiredService<IConfiguration>();
+//     var connectionString = config["BlobStorage:ConnectionString"] ?? throw new InvalidOperationException($"CosmosDb connection string not found");
+//     return new BlobServiceClient(connectionString);
+// });
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole(); // This connects logs to App Service Log Stream!
