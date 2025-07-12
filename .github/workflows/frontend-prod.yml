@@ -1,4 +1,4 @@
-name: Deploy Angular Frontend to Azure Dev
+name: Frontend - PROD
 
 on:
   workflow_dispatch:
