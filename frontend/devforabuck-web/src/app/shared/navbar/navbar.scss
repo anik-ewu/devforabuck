@@ -3,12 +3,12 @@
   align-items: center;
   // justify-content: space-between; // helps push links away nicely
   background: #0d1b2a;
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   flex-wrap: wrap; // allows items to wrap on small screens
 
   .logo img {
     height: 40px;
-    margin-right: 32px;
+    margin-right: 24px;
     border-radius: 50%;
   }
 
@@ -32,20 +32,10 @@
     }
   }
 
-  // TODO: open for vertical navbar
-
   @media (max-width: 768px) {
-    // flex-direction: column;   // stack logo + links vertically
-    // align-items: flex-start;
-
-    .logo {
-      // margin-bottom: 1rem;    // spacing between logo and links
-      margin-right: 16px;
-    }
 
     .links {
-      // flex-direction: column; // stack links vertically
-      gap: 0.50rem;           // reduce space
+      gap: 0.75rem;           // reduce space
     }
   }
 }
