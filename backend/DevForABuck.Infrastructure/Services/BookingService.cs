@@ -1,5 +1,6 @@
 using Azure.Storage.Blobs;
 using DevForABuck.Application.Interfaces;
+using DevForABuck.Domain.Entities;
 // using DevForABuck.Domain.Entities;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Configuration;

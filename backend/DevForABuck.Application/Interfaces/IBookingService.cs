@@ -1,4 +1,4 @@
-// using DevForABuck.Domain.Entities;
+using DevForABuck.Domain.Entities;
 
 namespace DevForABuck.Application.Interfaces
 {

@@ -2,6 +2,8 @@ using DevForABuck.Application.Interfaces;
 using DevForABuck.Infrastructure.Services;
 using Microsoft.Azure.Cosmos;
 using Azure.Storage.Blobs;
+using DevForABuck.Application.Commands.CreateBooking;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,13 +23,15 @@ builder.Services.AddSingleton(s =>
     return new CosmosClient(account, key);
 });
 
-
 builder.Services.AddSingleton(s =>
 {
     var config = s.GetRequiredService<IConfiguration>();
     var connectionString = config["BlobStorage:ConnectionString"] ?? throw new InvalidOperationException($"CosmosDb connection string not found");
     return new BlobServiceClient(connectionString);
 });
+
+builder.Services.AddMediatR(typeof(Program));
+builder.Services.AddMediatR(typeof(CreateBookingCommandHandler).Assembly);
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole(); // This connects logs to App Service Log Stream!
