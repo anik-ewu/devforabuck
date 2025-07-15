@@ -1,4 +1,5 @@
 using DevForABuck.Application.Queries.GetAllBookings;
+using DevForABuck.Application.Queries.GetBookingsByEmail;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,5 +22,12 @@ namespace DevForABuck.API.Controllers
             var bookings = await _mediator.Send(new GetAllBookingsQuery());
             return Ok(bookings);
         }
-    }
+
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetBookingsByEmail(string email)
+        {
+            var result = await _mediator.Send(new GetBookingsByEmailQuery { Email = email });
+            return Ok(result);
+        }
+}
 }
