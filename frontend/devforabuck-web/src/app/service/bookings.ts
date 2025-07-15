@@ -22,10 +22,10 @@ export class BookingsService {
   constructor(private http: HttpClient) {}
 
   getAllBookings(): Observable<BookingList[]> {
-    return this.http.get<BookingList[]>(`${this.apiUrl}/bookings/admin/all`);
+    return this.http.get<BookingList[]>(`${this.apiUrl}/bookings/queries/admin/all`);
   }
 
   getBookingsByEmail(email: string): Observable<BookingList[]> {
-    return this.http.get<BookingList[]>(`${this.apiUrl}/bookings/${email}`);
+    return this.http.get<BookingList[]>(`${this.apiUrl}/bookings/queries/${email}`);
   }
 }
