@@ -2,6 +2,8 @@ using DevForABuck.Application.Interfaces;
 using DevForABuck.Infrastructure.Services;
 using Microsoft.Azure.Cosmos;
 using Azure.Storage.Blobs;
+using DevForABuck.Application.Commands.CreateBooking;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,18 +18,45 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddSingleton(s =>
 {
     var config = s.GetRequiredService<IConfiguration>();
-    return new CosmosClient(config["CosmosDb:Account"], config["CosmosDb:Key"]);
+    var account = config["CosmosDb:Account"];
+    var key = config["CosmosDb:Key"];
+    return new CosmosClient(account, key);
 });
 
 builder.Services.AddSingleton(s =>
 {
     var config = s.GetRequiredService<IConfiguration>();
-    return new BlobServiceClient(config["BlobStorage:ConnectionString"]);
+    var connectionString = config["BlobStorage:ConnectionString"] ?? throw new InvalidOperationException($"CosmosDb connection string not found");
+    return new BlobServiceClient(connectionString);
+});
+
+builder.Services.AddMediatR(typeof(Program));
+builder.Services.AddMediatR(typeof(CreateBookingCommandHandler).Assembly);
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole(); // This connects logs to App Service Log Stream!
+
+
+// Cors policty
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", builder =>
+    {
+        builder.WithOrigins(
+                "http://localhost:4200", // Local Angular dev
+                "https://dev.devforabuck.com", // Dev environment
+                "https://www.devforabuck.com/") // Production
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        // TODO: add later
+        // .AllowCredentials();                  // Add this if using cookies/auth
+    });
 });
 
 var app = builder.Build();
 
 // ✅ Common middlewares
+app.UseCors("AllowFrontend");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
