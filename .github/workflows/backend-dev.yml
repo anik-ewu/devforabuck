@@ -1,4 +1,4 @@
-name: Deploy .NET API to Azure Dev via SP
+name: Backend - Dev
 
 on:
   push:

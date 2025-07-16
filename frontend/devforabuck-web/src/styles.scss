@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden; /* This prevents horizontal scrolling */
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Use viewport height to ensure full height */
+}
+
+router-outlet {
+  flex: 1; /* This makes the content take up all available space */
+}
+
+

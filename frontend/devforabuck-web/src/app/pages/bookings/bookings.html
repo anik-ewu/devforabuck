@@ -1,0 +1,59 @@
+<div class="bookings-container">
+  <div class="bookings-header">
+    <h1>Manage Bookings</h1>
+    <div class="booking-actions">
+      <button class="refresh-btn" (click)="refreshBookings()">
+        <span class="icon">🔄</span> Refresh
+      </button>
+      <button class="export-btn" (click)="exportBookings()">
+        <span class="icon">📤</span> Export
+      </button>
+    </div>
+  </div>
+
+  <div class="table-wrapper" *ngIf="bookings.length; else noBookings">
+    <table class="bookings-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Stack</th>
+          <th>Experience</th>
+          <!-- <th>Session Type</th> -->
+          <th>Slot Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of bookings">
+          <td data-label="Name">{{ booking.name }}</td>
+          <td data-label="Email">
+            <a href="mailto:{{ booking.email }}" class="email-link">{{ booking.email }}</a>
+          </td>
+          <td data-label="Stack" class="stack-tag">{{ booking.stack }}</td>
+          <td data-label="Exp">{{ booking.experienceYears }} yrs</td>
+          <!-- <td data-label="Type">{{ booking.sessionType || 'CV Review' }}</td> -->
+          <td data-label="Time">{{ booking.slotTime | date: 'MMM d, y, h:mm a' }}</td>
+          <td data-label="Actions" class="actions">
+            <a [href]="booking.resumeUrl" target="_blank" class="action-btn view-resume" *ngIf="booking.resumeUrl">
+              <span class="icon">👁️</span> Resume
+            </a>
+            <!-- TODO: add later -->
+            <!-- <button class="action-btn cancel" (click)="cancelBooking(booking.id)">
+              <span class="icon">❌</span> Cancel
+            </button> -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noBookings>
+    <div class="empty-state">
+      <div class="empty-icon">📅</div>
+      <h3>No Bookings Found</h3>
+      <p>You currently have no scheduled sessions.</p>
+      <a routerLink="/bookings/new" class="cta-btn">Create New Booking</a>
+    </div>
+  </ng-template>
+</div>
