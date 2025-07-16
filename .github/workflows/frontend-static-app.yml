@@ -25,7 +25,13 @@ jobs:
         working-directory: frontend/devforabuck-web
         run: npm install
 
-      - name: Build Angular app
+      - name: Build Angular app (Dev)
+        if: github.ref == 'refs/heads/dev'
+        working-directory: frontend/devforabuck-web
+        run: npm run build -- --configuration=development
+
+      - name: Build Angular app (Prod)
+        if: github.ref == 'refs/heads/main'
         working-directory: frontend/devforabuck-web
         run: npm run build -- --configuration=production
 
