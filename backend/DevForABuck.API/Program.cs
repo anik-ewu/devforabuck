@@ -45,7 +45,7 @@ builder.Services.AddCors(options =>
         builder.WithOrigins(
                 "http://localhost:4200", // Local Angular dev
                 "https://dev.devforabuck.com", // Dev environment
-                "https://www.devforabuck.com/") // Production
+                "https://www.devforabuck.com") // Production
             .AllowAnyHeader()
             .AllowAnyMethod();
         // TODO: add later
