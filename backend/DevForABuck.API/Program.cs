@@ -38,6 +38,7 @@ builder.Logging.AddConsole(); // This connects logs to App Service Log Stream!
 
 
 // Cors policty
+// Configure CORS policy
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", builder =>
@@ -47,13 +48,24 @@ builder.Services.AddCors(options =>
                 "https://dev.devforabuck.com", // Dev environment
                 "https://www.devforabuck.com") // Production
             .AllowAnyHeader()
-            .AllowAnyMethod();
-        // TODO: add later
-        // .AllowCredentials();                  // Add this if using cookies/auth
+            .AllowAnyMethod()
+            .SetPreflightMaxAge(TimeSpan.FromSeconds(86400)); // 24 hours for preflight cache
     });
 });
 
 var app = builder.Build();
+
+// Handle OPTIONS requests first
+app.Use(async (context, next) =>
+{
+    if (context.Request.Method == "OPTIONS")
+    {
+        context.Response.StatusCode = 204; // No Content
+        await context.Response.CompleteAsync();
+        return;
+    }
+    await next();
+});
 
 // ✅ Common middlewares
 app.UseCors("AllowFrontend");
