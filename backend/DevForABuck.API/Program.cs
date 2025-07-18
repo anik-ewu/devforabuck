@@ -38,20 +38,19 @@ builder.Logging.AddConsole(); // This connects logs to App Service Log Stream!
 
 
 // Cors policty
-// Configure CORS policy
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend", builder =>
+    options.AddPolicy("AllowFrontend", policy =>
     {
-        builder.WithOrigins(
-                "http://localhost:4200", // Local Angular dev
-                "https://dev.devforabuck.com", // Dev environment
-                "https://www.devforabuck.com") // Production
+        policy.WithOrigins(
+                "http://localhost:4200",
+                "https://dev.devforabuck.com",
+                "https://www.devforabuck.com")
             .AllowAnyHeader()
-            .AllowAnyMethod()
-            .SetPreflightMaxAge(TimeSpan.FromSeconds(86400)); // 24 hours for preflight cache
+            .AllowAnyMethod();
     });
 });
+
 
 var app = builder.Build();
 
@@ -68,6 +67,7 @@ app.Use(async (context, next) =>
 });
 
 // ✅ Common middlewares
+app.UseRouting();
 app.UseCors("AllowFrontend");
 app.UseHttpsRedirection();
 app.UseAuthorization();
