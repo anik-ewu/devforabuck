@@ -37,7 +37,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole(); // This connects logs to App Service Log Stream!
 
 
-// Cors policty
+// Cors policy
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -53,18 +53,6 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
-
-// Handle OPTIONS requests first
-app.Use(async (context, next) =>
-{
-    if (context.Request.Method == "OPTIONS")
-    {
-        context.Response.StatusCode = 204; // No Content
-        await context.Response.CompleteAsync();
-        return;
-    }
-    await next();
-});
 
 // ✅ Common middlewares
 app.UseRouting();
