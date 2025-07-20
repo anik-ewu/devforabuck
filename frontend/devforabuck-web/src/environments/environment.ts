@@ -5,6 +5,6 @@ export const environment = {
   tenantDomain: 'devforabucklocal.onmicrosoft.com',
   authority: 'https://devforabucklocal.ciamlogin.com',
   redirectUri: 'http://localhost:4200',
-  logoutRedirectUri: 'http://localhost:4200',
+  logoutRedirectUri: 'https://dev.devforabuck.com',
   scope: 'openid profile'
 };
