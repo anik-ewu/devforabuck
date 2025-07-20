@@ -1,32 +1,28 @@
-<div *ngIf="notAllowed" class="auth-warning">
-  <h3>🔒 Access Restricted</h3>
-  <p>You must be logged in to view your bookings.</p>
-  <a routerLink="/" class="cta-btn">Return to Home</a>
-</div>
+<!-- Restricted Message -->
+<section class="restricted-view" *ngIf="notAllowed">
+  <h2>🔒 Access Denied</h2>
+  <p>Please log in to access your bookings.</p>
+  <a class="btn-primary" routerLink="/">← Go Home</a>
+</section>
 
-
-<div class="bookings-container"  *ngIf="!notAllowed">
-  <div class="bookings-header">
-    <h1>Manage Bookings</h1>
-    <div class="booking-actions">
-      <button class="refresh-btn" (click)="refreshBookings()">
-        <span class="icon">🔄</span> Refresh
-      </button>
-      <button class="export-btn" (click)="exportBookings()">
-        <span class="icon">📤</span> Export
-      </button>
+<!-- Bookings Section -->
+<section class="bookings" *ngIf="!notAllowed">
+  <header class="bookings-header">
+    <h1>📘 My Bookings</h1>
+    <div class="actions">
+      <button (click)="refreshBookings()">🔄 Refresh</button>
+      <button (click)="exportBookings()">📤 Export</button>
     </div>
-  </div>
+  </header>
 
-  <div class="table-wrapper" *ngIf="bookings.length; else noBookings">
-    <table class="bookings-table">
+  <div *ngIf="bookings.length; else noData" class="table-container">
+    <table class="responsive-table">
       <thead>
         <tr>
           <th>Name</th>
           <th>Email</th>
           <th>Stack</th>
           <th>Experience</th>
-          <!-- <th>Session Type</th> -->
           <th>Slot Time</th>
           <th>Actions</th>
         </tr>
@@ -35,32 +31,31 @@
         <tr *ngFor="let booking of bookings">
           <td data-label="Name">{{ booking.name }}</td>
           <td data-label="Email">
-            <a href="mailto:{{ booking.email }}" class="email-link">{{ booking.email }}</a>
+            <a [href]="'mailto:' + booking.email">{{ booking.email }}</a>
           </td>
-          <td data-label="Stack" class="stack-tag">{{ booking.stack }}</td>
+          <td data-label="Stack">{{ booking.stack }}</td>
           <td data-label="Exp">{{ booking.experienceYears }} yrs</td>
-          <!-- <td data-label="Type">{{ booking.sessionType || 'CV Review' }}</td> -->
-          <td data-label="Time">{{ booking.slotTime | date: 'MMM d, y, h:mm a' }}</td>
-          <td data-label="Actions" class="actions">
-            <a [href]="booking.resumeUrl" target="_blank" class="action-btn view-resume" *ngIf="booking.resumeUrl">
-              <span class="icon">👁️</span> Resume
+          <td data-label="Time">{{ booking.slotTime | date:'MMM d, y, h:mm a' }}</td>
+          <td data-label="Actions">
+            <a *ngIf="booking.resumeUrl"
+               class="btn-secondary download-btn"
+               [href]="booking.resumeUrl"
+               download
+               target="_blank">
+              ⬇️
             </a>
-            <!-- TODO: add later -->
-            <!-- <button class="action-btn cancel" (click)="cancelBooking(booking.id)">
-              <span class="icon">❌</span> Cancel
-            </button> -->
           </td>
+
         </tr>
       </tbody>
     </table>
   </div>
 
-  <ng-template #noBookings>
+  <ng-template #noData>
     <div class="empty-state">
-      <div class="empty-icon">📅</div>
-      <h3>No Bookings Found</h3>
-      <p>You currently have no scheduled sessions.</p>
-      <a routerLink="/bookings/new" class="cta-btn">Create New Booking</a>
+      <h3>📅 No Bookings</h3>
+      <p>You haven't scheduled any sessions yet.</p>
+      <a class="btn-primary" routerLink="/bookings/new">➕ Book Now</a>
     </div>
   </ng-template>
-</div>
+</section>
