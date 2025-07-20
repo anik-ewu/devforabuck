@@ -1,8 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 import { BookingList, BookingsService } from '../../service/bookings';
 import { environment } from '../../../environments/environment';
-import { RouterModule } from '@angular/router';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-bookings',
@@ -14,17 +15,21 @@ import { RouterModule } from '@angular/router';
 export class Bookings implements OnInit {
   bookings: BookingList[] = [];
   isLoading = true;
-  error: string | null = null;
+  notAllowed = false;
 
   private bookingsService = inject(BookingsService);
+  public authService = inject(AuthService);
+  private router = inject(Router);
 
   ngOnInit(): void {
-    this.loadBookings();
+    if (!this.authService.isLoggedIn) {
+      this.notAllowed = true;
+      this.loadBookings();
+    }
   }
 
   loadBookings(): void {
     this.isLoading = true;
-    this.error = null;
 
     this.bookingsService.getAllBookings().subscribe({
       next: (data) => {
@@ -33,7 +38,6 @@ export class Bookings implements OnInit {
       },
       error: (err) => {
         console.error('Failed to load bookings:', err);
-        this.error = 'Failed to load bookings. Please try again later.';
         this.isLoading = false;
       }
     });
@@ -46,34 +50,21 @@ export class Bookings implements OnInit {
 
   exportBookings(): void {
     console.log('Exporting bookings...');
-    // Implement export logic here
-    // This could be CSV, Excel, or PDF export
     const csvContent = this.convertToCSV(this.bookings);
     this.downloadFile(csvContent, 'bookings.csv');
   }
 
   cancelBooking(bookingId: string): void {
-    // if (confirm('Are you sure you want to cancel this booking?')) {
-    //   this.bookingsService.cancelBooking(bookingId).subscribe({
-    //     next: () => {
-    //       this.bookings = this.bookings.filter(b => b.id !== bookingId);
-    //     },
-    //     error: (err) => {
-    //       console.error('Failed to cancel booking:', err);
-    //       alert('Failed to cancel booking. Please try again.');
-    //     }
-    //   });
-    // }
+    // Implement cancel logic if needed
   }
 
   private convertToCSV(bookings: BookingList[]): string {
-    const headers = ['Name', 'Email', 'Stack', 'Experience', 'Session Type', 'Slot Time'];
+    const headers = ['Name', 'Email', 'Stack', 'Experience', 'Slot Time'];
     const rows = bookings.map(b => [
       `"${b.name}"`,
       `"${b.email}"`,
       `"${b.stack}"`,
       b.experienceYears,
-      // `"${b.sessionType || 'CV Review'}"`,
       `"${new Date(b.slotTime).toLocaleString()}"`
     ]);
 

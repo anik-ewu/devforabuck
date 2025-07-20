@@ -16,14 +16,14 @@ export class Navbar implements OnInit {
   constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get('code');
-    if (code) {
+    const code = new URLSearchParams(window.location.search).get('code');
+    const token = localStorage.getItem('access_token');
+
+    if (code || token) {
+      this.auth.setLoggedIn(true);
       this.loggedIn = true;
-      console.log('Authorization Code:', code);
-      // Call backend to exchange the code if needed
     } else {
-      this.loggedIn = this.auth.isLoggedIn;
+      this.loggedIn = false;
     }
   }
 

@@ -5,8 +5,15 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
+
+  private _loggedIn = false;
+
   get isLoggedIn(): boolean {
-    return !!localStorage.getItem('access_token');
+    return this._loggedIn;
+  }
+
+  setLoggedIn(value: boolean) {
+    this._loggedIn = value;
   }
 
   async login(): Promise<void> {

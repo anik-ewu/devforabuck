@@ -1,4 +1,11 @@
-<div class="bookings-container">
+<div *ngIf="notAllowed" class="auth-warning">
+  <h3>🔒 Access Restricted</h3>
+  <p>You must be logged in to view your bookings.</p>
+  <a routerLink="/" class="cta-btn">Return to Home</a>
+</div>
+
+
+<div class="bookings-container"  *ngIf="!notAllowed">
   <div class="bookings-header">
     <h1>Manage Bookings</h1>
     <div class="booking-actions">
