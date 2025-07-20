@@ -11,10 +11,13 @@
   </div>
 
   <div class="auth-buttons">
-    <button *ngIf="!isLoggedIn()" (click)="login()">Login</button>
-    <button *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
+    <button *ngIf="!isLoggedIn()" (click)="login()" class="auth-btn login-btn">
+      <span class="desktop-text">Login</span>
+      <span class="mobile-icon">→</span>
+    </button>
+    <button *ngIf="isLoggedIn()" (click)="logout()" class="auth-btn logout-btn">
+      <span class="desktop-text">Logout</span>
+      <span class="mobile-icon">←</span>
+    </button>
   </div>
 </nav>
-
-
-
