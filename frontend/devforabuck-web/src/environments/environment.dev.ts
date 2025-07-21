@@ -4,7 +4,7 @@ export const environment = {
   clientId: '5df26c43-eac1-441f-9114-1961a2d0b26d',
   tenantDomain: 'devforabucklocal.onmicrosoft.com',
   authority: 'https://devforabucklocal.ciamlogin.com',
-  redirectUri: 'http://localhost:4200',
-  logoutRedirectUri: 'http://localhost:4200',
+  redirectUri: 'https://dev.devforabuck.com',
+  logoutRedirectUri: 'https://dev.devforabuck.com',
   scope: 'openid profile'
 };

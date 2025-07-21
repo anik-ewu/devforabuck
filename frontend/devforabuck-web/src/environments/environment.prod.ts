@@ -1,10 +1,10 @@
 export const environment = {
   production: true,
   apiUrl: 'https://devforabuck-api-prod-gragc5hah6dbh6a0.southeastasia-01.azurewebsites.net/api',
-  clientId: '5df26c43-eac1-441f-9114-1961a2d0b26d',
-  tenantDomain: 'devforabucklocal.onmicrosoft.com',
-  authority: 'https://devforabucklocal.ciamlogin.com',
-  redirectUri: 'http://localhost:4200',
-  logoutRedirectUri: 'http://localhost:4200',
+  clientId: '16739f71-1bdc-4368-8b94-a79bf5573b83',
+  tenantDomain: 'devforabuck.onmicrosoft.com',
+  authority: 'https://devforabuck.ciamlogin.com',
+  redirectUri: 'https://www.devforabuck.com',
+  logoutRedirectUri: 'https://www.devforabuck.com',
   scope: 'openid profile'
 };
