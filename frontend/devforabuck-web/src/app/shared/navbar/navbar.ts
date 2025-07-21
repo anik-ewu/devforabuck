@@ -15,17 +15,19 @@ export class Navbar implements OnInit {
 
   constructor(private auth: AuthService) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const code = new URLSearchParams(window.location.search).get('code');
     const token = localStorage.getItem('access_token');
 
-    if (code || token) {
+    if (token) {
       this.auth.setLoggedIn(true);
       this.loggedIn = true;
-    } else {
-      this.loggedIn = false;
+    } else if (code) {
+      const success = await this.auth.exchangeCodeForTokens(code);
+      this.loggedIn = success;
     }
   }
+
 
   login(): void {
     this.auth.login();

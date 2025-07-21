@@ -5,7 +5,6 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
-
   private _loggedIn = false;
 
   get isLoggedIn(): boolean {
@@ -46,6 +45,44 @@ export class AuthService {
       `?post_logout_redirect_uri=${encodeURIComponent(environment.logoutRedirectUri)}`;
 
     window.location.href = logoutUrl;
+  }
+
+  async exchangeCodeForTokens(code: string): Promise<boolean> {
+    const codeVerifier = sessionStorage.getItem('pkce_code_verifier');
+    const tokenEndpoint = `${environment.authority}/${environment.tenantDomain}/oauth2/v2.0/token`;
+
+    const body = new URLSearchParams();
+    body.set('grant_type', 'authorization_code');
+    body.set('code', code);
+    body.set('redirect_uri', environment.redirectUri);
+    body.set('client_id', environment.clientId);
+    body.set('code_verifier', codeVerifier || '');
+
+    try {
+      const response = await fetch(tokenEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: body.toString(),
+      });
+
+      const data = await response.json();
+
+      if (data.access_token) {
+        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('id_token', data.id_token);
+        this.setLoggedIn(true);
+        window.history.replaceState({}, '', '/'); // clean up URL after login
+        return true;
+      } else {
+        console.error('Token response missing access_token:', data);
+        return false;
+      }
+    } catch (error) {
+      console.error('Token exchange failed:', error);
+      return false;
+    }
   }
 
   private async generatePKCECodes(): Promise<{ codeVerifier: string; codeChallenge: string }> {
