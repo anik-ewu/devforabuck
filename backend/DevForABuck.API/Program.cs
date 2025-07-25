@@ -14,6 +14,7 @@ builder.Services.AddSwaggerGen();
 
 // ✅ DI for custom services
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<ISlotService, SlotService>();
 
 builder.Services.AddSingleton(s =>
 {
