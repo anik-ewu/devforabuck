@@ -30,4 +30,17 @@ public class SlotService: ISlotService
             throw;
         }
     }
+    public async Task<IEnumerable<AvailableSlot>> GetAllSlotsAsync()
+    {
+        var query = new QueryDefinition("SELECT * FROM c");
+        var iterator = _container.GetItemQueryIterator<AvailableSlot>(query);
+        var results = new List<AvailableSlot>();
+
+        while (iterator.HasMoreResults)
+        {
+            var response = await iterator.ReadNextAsync();
+            results.AddRange(response);
+        }
+        return results;
+    }
 }
