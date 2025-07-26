@@ -1,19 +1,39 @@
-<div class="admin-wrapper">
-  <h2 class="dashboard-title">🛠️ Admin Dashboard</h2>
+<div class="admin-dashboard">
+  <header class="dashboard-header">
+    <h1 class="dashboard-title">
+      <span class="icon">⚙️</span>
+      Admin Dashboard
+    </h1>
+    <!-- <div class="admin-actions">
+      <button class="refresh-btn" (click)="refreshData()">
+        <span class="icon">🔄</span> Refresh
+      </button>
+    </div> -->
+  </header>
 
-  <!-- Tab Navigation -->
-  <div class="tabs">
-    <button (click)="activeTab = 'slots'" [class.active]="activeTab === 'slots'">
-      📅 Slot Manager
+  <nav class="dashboard-tabs">
+    <button
+      (click)="activeTab = 'slots'"
+      [class.active]="activeTab === 'slots'"
+      class="tab-button"
+    >
+      <span class="icon">📅</span>
+      <span class="label">Slot Management</span>
     </button>
-    <button (click)="activeTab = 'bookings'" [class.active]="activeTab === 'bookings'">
-      📖 Booking Manager
+    <button
+      (click)="activeTab = 'bookings'"
+      [class.active]="activeTab === 'bookings'"
+      class="tab-button"
+    >
+      <span class="icon">📖</span>
+      <span class="label">Booking Manager</span>
     </button>
-  </div>
+  </nav>
 
-  <!-- Tab Content -->
-  <div class="tab-content">
-    <app-slot-manager *ngIf="activeTab === 'slots'"></app-slot-manager>
-    <app-booking-manager *ngIf="activeTab === 'bookings'"></app-booking-manager>
+  <div class="dashboard-content">
+    <div class="content-card">
+      <app-slot-manager *ngIf="activeTab === 'slots'"></app-slot-manager>
+      <app-booking-manager *ngIf="activeTab === 'bookings'"></app-booking-manager>
+    </div>
   </div>
 </div>

@@ -1,51 +1,116 @@
-<div class="slot-manager-wrapper">
-  <h3 class="section-title">📅 Create New Slot</h3>
+<div class="slot-manager">
+  <header class="manager-header">
+    <h2 class="manager-title">
+      <span class="icon">📅</span>
+      Slot Management
+    </h2>
+  </header>
 
-  <form [formGroup]="slotForm" (ngSubmit)="createSlot()" class="slot-form">
-    <label for="startTime">Start Time</label>
-    <input type="datetime-local" id="startTime" formControlName="startTime" />
+  <div class="manager-content">
+    <!-- Create Slot Card -->
+    <div class="create-slot-card">
+      <h3 class="card-title">Create New Slot</h3>
+      <form [formGroup]="slotForm" (ngSubmit)="createSlot()" class="slot-form">
+        <div class="form-group">
+          <label for="startTime">Start Time</label>
+          <input
+            type="datetime-local"
+            id="startTime"
+            formControlName="startTime"
+            class="form-input"
+          />
+        </div>
 
-    <label for="endTime">End Time</label>
-    <input type="datetime-local" id="endTime" formControlName="endTime" />
+        <div class="form-group">
+          <label for="endTime">End Time</label>
+          <input
+            type="datetime-local"
+            id="endTime"
+            formControlName="endTime"
+            class="form-input"
+          />
+        </div>
 
-    <label for="slotType">Slot Type</label>
-    <select id="slotType" formControlName="slotType">
-      <option value="resume">Resume</option>
-      <option value="careercouncil">Career Council</option>
-    </select>
+        <div class="form-group">
+          <label for="slotType">Session Type</label>
+          <select
+            id="slotType"
+            formControlName="slotType"
+            class="form-select"
+          >
+            <option value="resume">Resume Review</option>
+            <option value="careercouncil">Career Consultation</option>
+          </select>
+        </div>
 
-    <button type="submit" [disabled]="slotForm.invalid || loading">Create Slot</button>
-  </form>
+        <button
+          type="submit"
+          class="submit-btn"
+          [disabled]="slotForm.invalid || loading"
+        >
+          <span *ngIf="!loading">Create Slot</span>
+          <span *ngIf="loading" class="spinner">⏳</span>
+        </button>
+      </form>
+    </div>
 
-  <div class="filter-section">
-    <label for="filterType">Filter by Type:</label>
-    <select id="filterType" [(ngModel)]="selectedType" (change)="applyFilter()">
-      <option value="">All</option>
-      <option value="resume">Resume</option>
-      <option value="careercouncil">Career Council</option>
-    </select>
+    <!-- Filter and Slots Table -->
+    <div class="slots-table-card">
+      <div class="table-header">
+        <h3 class="card-title">Available Slots</h3>
+
+        <div class="filter-control">
+          <label for="filterType" class="filter-label">Filter by Type:</label>
+          <select
+            id="filterType"
+            [(ngModel)]="selectedType"
+            (change)="applyFilter()"
+            class="filter-select"
+          >
+            <option value="">All Types</option>
+            <option value="resume">Resume Review</option>
+            <option value="careercouncil">Career Consultation</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="slots-table">
+          <thead>
+            <tr>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let slot of slots">
+              <td data-label="Start">{{ slot.startTime | date: 'MMM d, y, h:mm a' }}</td>
+              <td data-label="End">{{ slot.endTime | date: 'MMM d, y, h:mm a' }}</td>
+              <td data-label="Type" class="slot-type">
+                {{ slot.slotType === 'resume' ? 'Resume Review' : 'Career Consultation' }}
+              </td>
+              <td data-label="Status">
+                <span class="status-badge" [class.booked]="slot.isBooked" [class.available]="!slot.isBooked">
+                  {{ slot.isBooked ? 'Booked' : 'Available' }}
+                </span>
+              </td>
+              <td data-label="Actions" class="actions">
+                <!-- <button class="action-btn delete" (click)="deleteSlot(slot.id)">
+                  <span class="icon">🗑️</span> Delete
+                </button> -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="empty-state" *ngIf="slots.length === 0">
+          <p>No slots found matching your criteria</p>
+          <button class="reset-filter" (click)="resetFilters()">Reset Filters</button>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <h3 class="section-title">🗂️ All Slots</h3>
-
-  <table class="slot-table">
-    <thead>
-      <tr>
-        <th>Start</th>
-        <th>End</th>
-        <th>Type</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let slot of slots">
-        <td>{{ slot.startTime | date: 'short' }}</td>
-        <td>{{ slot.endTime | date: 'short' }}</td>
-        <td>{{ slot.slotType }}</td>
-        <td [ngClass]="{ 'booked': slot.isBooked, 'available': !slot.isBooked }">
-          {{ slot.isBooked ? 'Booked' : 'Available' }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </div>

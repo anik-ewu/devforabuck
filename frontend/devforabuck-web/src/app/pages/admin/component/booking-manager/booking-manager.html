@@ -1,41 +1,64 @@
-<div class="booking-manager-wrapper">
-  <h3 class="section-title">📖 Booking Manager</h3>
+<div class="booking-manager">
+  <header class="manager-header">
+    <h2 class="manager-title">
+      <span class="icon">📖</span>
+      Booking Manager
+    </h2>
 
-  <!-- Filter -->
-  <div class="filter-section">
-    <label for="emailFilter">Filter by Email:</label>
-    <input
-      id="emailFilter"
-      type="text"
-      [(ngModel)]="bookingEmailFilter"
-      (input)="applyBookingFilter()"
-      placeholder="Enter email..."
-    />
+    <div class="manager-actions">
+      <div class="filter-control">
+        <label for="emailFilter" class="sr-only">Filter by Email</label>
+        <div class="input-wrapper">
+          <span class="search-icon">🔍</span>
+          <input
+            id="emailFilter"
+            type="text"
+            [(ngModel)]="bookingEmailFilter"
+            (input)="applyBookingFilter()"
+            placeholder="Filter by email..."
+            class="filter-input"
+          />
+        </div>
+      </div>
+      <!-- <button class="export-btn" (click)="exportBookings()">
+        <span class="icon">📤</span> Export
+      </button> -->
+    </div>
+  </header>
+
+  <div class="table-container">
+    <table class="booking-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <!-- <th>Stack</th> -->
+          <th>Experience</th>
+          <th>Slot Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of filteredBookings">
+          <td data-label="Name">{{ booking.name }}</td>
+          <td data-label="Email">
+            <a href="mailto:{{ booking.email }}" class="email-link">{{ booking.email }}</a>
+          </td>
+          <!-- <td data-label="Stack" class="stack-tag">{{ booking.stack }}</td> -->
+          <td data-label="Exp">{{ booking.experienceYears }} yrs</td>
+          <td data-label="Time">{{ booking.slotTime | date: 'MMM d, y, h:mm a' }}</td>
+          <td data-label="Actions" class="actions">
+            <a [href]="booking.resumeUrl" target="_blank" class="action-btn" *ngIf="booking.resumeUrl">
+              <span class="icon">👁️</span> Resume
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="empty-state" *ngIf="filteredBookings.length === 0">
+      <p>No bookings found matching your criteria</p>
+      <!-- <button class="reset-filter" (click)="resetFilters()">Reset Filters</button> -->
+    </div>
   </div>
-
-  <!-- Booking Table -->
-  <table class="booking-table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Stack</th>
-        <th>Experience</th>
-        <th>Slot Time</th>
-        <th>Resume</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let booking of filteredBookings">
-        <td>{{ booking.name }}</td>
-        <td>{{ booking.email }}</td>
-        <td>{{ booking.stack }}</td>
-        <td>{{ booking.experienceYears }}</td>
-        <td>{{ booking.slotTime | date: 'short' }}</td>
-        <td>
-          <a [href]="booking.resumeUrl" target="_blank">View</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </div>

@@ -68,4 +68,8 @@ export class SlotManager implements OnInit {
       ? this.allSlots.filter((slot) => slot.slotType === this.selectedType)
       : [...this.allSlots];
   }
+
+  resetFilters() {
+
+  }
 }
