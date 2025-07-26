@@ -1,52 +1,19 @@
-<h2>🛠️ Admin Slot Manager</h2>
+<div class="admin-wrapper">
+  <h2 class="dashboard-title">🛠️ Admin Dashboard</h2>
 
-<!-- Create New Slot Form -->
-<form [formGroup]="slotForm" (ngSubmit)="createSlot()" class="mb-20">
-  <div>
-    <label>Start Time:</label>
-    <input type="datetime-local" formControlName="startTime" />
+  <!-- Tab Navigation -->
+  <div class="tabs">
+    <button (click)="activeTab = 'slots'" [class.active]="activeTab === 'slots'">
+      📅 Slot Manager
+    </button>
+    <button (click)="activeTab = 'bookings'" [class.active]="activeTab === 'bookings'">
+      📖 Booking Manager
+    </button>
   </div>
-  <div>
-    <label>End Time:</label>
-    <input type="datetime-local" formControlName="endTime" />
+
+  <!-- Tab Content -->
+  <div class="tab-content">
+    <app-slot-manager *ngIf="activeTab === 'slots'"></app-slot-manager>
+    <app-booking-manager *ngIf="activeTab === 'bookings'"></app-booking-manager>
   </div>
-  <div>
-    <label>Slot Type:</label>
-    <select formControlName="slotType">
-      <option value="resume">Resume</option>
-      <option value="careercouncil">Career Council</option>
-    </select>
-  </div>
-  <button type="submit" [disabled]="loading">Create Slot</button>
-</form>
-
-<!-- Filter -->
-<select [(ngModel)]="selectedType" (change)="applyFilter()">
-  <option value="">All</option>
-  <option value="resume">Resume</option>
-  <option value="careercouncil">Career Council</option>
-</select>
-
-
-<!-- Slot Table -->
-<table>
-  <thead>
-    <tr>
-      <th>Start Time</th>
-      <th>End Time</th>
-      <th>Slot Type</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let slot of slots">
-      <td>{{ slot.startTime | date: 'medium' }}</td>
-      <td>{{ slot.endTime | date: 'medium' }}</td>
-      <td>{{ slot.slotType }}</td>
-      <td [style.color]="slot.isBooked ? 'red' : 'green'">
-        {{ slot.isBooked ? 'Booked' : 'Available' }}
-      </td>
-    </tr>
-  </tbody>
-</table>
-
+</div>
