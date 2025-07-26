@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BookingList, BookingsService } from '../../service/bookings';
+import { BookingList, BookingsService } from '../../service/bookings-service';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 // import { AuthService } from '../../service/auth'; // ✅ your service

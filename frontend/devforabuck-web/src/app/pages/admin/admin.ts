@@ -1,23 +1,35 @@
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SlotService } from '../../service/slot-service';
+// import { SlotService, Slot } from '../../services/slot.service';
+
+export interface Slot {
+  id: string;
+  startTime: string;
+  endTime: string;
+  isBooked: boolean;
+  bookedByEmail?: string;
+  slotType: string;
+}
+
+
+
 
 @Component({
   selector: 'app-admin',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './admin.html',
-  styleUrl: './admin.scss'
+  styleUrl: './admin.scss',
 })
-export class Admin {
-
+export class Admin implements OnInit {
   slotForm!: FormGroup;
-  slots: any[] = [];
+  slots: Slot[] = [];
   selectedType: string = '';
   loading = false;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  constructor(private fb: FormBuilder, private slotService: SlotService) {}
 
   ngOnInit(): void {
     this.slotForm = this.fb.group({
@@ -32,15 +44,17 @@ export class Admin {
   createSlot(): void {
     if (this.slotForm.invalid) return;
 
-    const body = {
-      startTime: new Date(this.slotForm.value.startTime).toISOString(),
-      endTime: new Date(this.slotForm.value.endTime).toISOString(),
-      slotType: this.slotForm.value.slotType,
+    const { startTime, endTime, slotType } = this.slotForm.value;
+
+    const payload = {
+      startTime: new Date(startTime).toISOString(),
+      endTime: new Date(endTime).toISOString(),
+      slotType,
     };
 
     this.loading = true;
 
-    this.http.post('/api/slots/commands', body).subscribe({
+    this.slotService.createSlot(payload).subscribe({
       next: () => {
         this.slotForm.reset({ slotType: 'resume' });
         this.loadSlots();
@@ -50,18 +64,27 @@ export class Admin {
     });
   }
 
+  allSlots: Slot[] = []; // keep raw list
+
   loadSlots(): void {
     this.loading = true;
 
-    let params = new HttpParams();
-    if (this.selectedType) {
-      params = params.set('type', this.selectedType);
-    }
-
-    this.http.get<any[]>('/api/slots/queries/admin/all', { params }).subscribe({
-      next: (data) => (this.slots = data),
+    this.slotService.getAllSlots().subscribe({
+      next: (data) => {
+        this.allSlots = data;
+        this.applyFilter();
+      },
       error: (err) => console.error('Failed to load slots', err),
       complete: () => (this.loading = false),
     });
   }
+
+  applyFilter(): void {
+    if (this.selectedType) {
+      this.slots = this.allSlots.filter(slot => slot.slotType === this.selectedType);
+    } else {
+      this.slots = [...this.allSlots];
+    }
+  }
+
 }

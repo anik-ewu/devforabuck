@@ -21,14 +21,12 @@
 </form>
 
 <!-- Filter -->
-<div class="mb-20">
-  <label>Filter by Slot Type:</label>
-  <select [(ngModel)]="selectedType" (change)="loadSlots()">
-    <option value="">All</option>
-    <option value="resume">Resume</option>
-    <option value="careercouncil">Career Council</option>
-  </select>
-</div>
+<select [(ngModel)]="selectedType" (change)="applyFilter()">
+  <option value="">All</option>
+  <option value="resume">Resume</option>
+  <option value="careercouncil">Career Council</option>
+</select>
+
 
 <!-- Slot Table -->
 <table>
