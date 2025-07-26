@@ -1,1 +1,51 @@
+<div class="slot-manager-wrapper">
+  <h3 class="section-title">📅 Create New Slot</h3>
 
+  <form [formGroup]="slotForm" (ngSubmit)="createSlot()" class="slot-form">
+    <label for="startTime">Start Time</label>
+    <input type="datetime-local" id="startTime" formControlName="startTime" />
+
+    <label for="endTime">End Time</label>
+    <input type="datetime-local" id="endTime" formControlName="endTime" />
+
+    <label for="slotType">Slot Type</label>
+    <select id="slotType" formControlName="slotType">
+      <option value="resume">Resume</option>
+      <option value="careercouncil">Career Council</option>
+    </select>
+
+    <button type="submit" [disabled]="slotForm.invalid || loading">Create Slot</button>
+  </form>
+
+  <div class="filter-section">
+    <label for="filterType">Filter by Type:</label>
+    <select id="filterType" [(ngModel)]="selectedType" (change)="applyFilter()">
+      <option value="">All</option>
+      <option value="resume">Resume</option>
+      <option value="careercouncil">Career Council</option>
+    </select>
+  </div>
+
+  <h3 class="section-title">🗂️ All Slots</h3>
+
+  <table class="slot-table">
+    <thead>
+      <tr>
+        <th>Start</th>
+        <th>End</th>
+        <th>Type</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let slot of slots">
+        <td>{{ slot.startTime | date: 'short' }}</td>
+        <td>{{ slot.endTime | date: 'short' }}</td>
+        <td>{{ slot.slotType }}</td>
+        <td [ngClass]="{ 'booked': slot.isBooked, 'available': !slot.isBooked }">
+          {{ slot.isBooked ? 'Booked' : 'Available' }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

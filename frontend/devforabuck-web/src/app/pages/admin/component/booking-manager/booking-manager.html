@@ -1,1 +1,41 @@
-<p>booking-manager works!</p>
+<div class="booking-manager-wrapper">
+  <h3 class="section-title">📖 Booking Manager</h3>
+
+  <!-- Filter -->
+  <div class="filter-section">
+    <label for="emailFilter">Filter by Email:</label>
+    <input
+      id="emailFilter"
+      type="text"
+      [(ngModel)]="bookingEmailFilter"
+      (input)="applyBookingFilter()"
+      placeholder="Enter email..."
+    />
+  </div>
+
+  <!-- Booking Table -->
+  <table class="booking-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Stack</th>
+        <th>Experience</th>
+        <th>Slot Time</th>
+        <th>Resume</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let booking of filteredBookings">
+        <td>{{ booking.name }}</td>
+        <td>{{ booking.email }}</td>
+        <td>{{ booking.stack }}</td>
+        <td>{{ booking.experienceYears }}</td>
+        <td>{{ booking.slotTime | date: 'short' }}</td>
+        <td>
+          <a [href]="booking.resumeUrl" target="_blank">View</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
