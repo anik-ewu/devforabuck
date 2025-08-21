@@ -10,5 +10,7 @@ public class CreateBookingCommand: IRequest<Booking>
     public string Stack { get; set; }
     public int ExperienceYears { get; set; }
     public DateTime SlotTime { get; set; }
+    
+    public string SessionType { get; set; }
     public IFormFile Resume { get; set; }
 }

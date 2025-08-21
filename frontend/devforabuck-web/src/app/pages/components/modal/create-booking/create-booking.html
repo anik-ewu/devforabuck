@@ -1,0 +1,80 @@
+<h2 mat-dialog-title class="dialog-title">Book Your Consultation</h2>
+
+<mat-dialog-content class="dialog-content">
+  <div class="session-info">
+    <div class="info-icon">⏱</div>
+    <div class="info-text">
+      <p><strong>30-minute session</strong> for just <span class="price">$1</span></p>
+      <p class="small">Perfect for code reviews, career advice, or technical guidance</p>
+    </div>
+  </div>
+
+  <form [formGroup]="bookingForm" class="booking-form">
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Full Name</mat-label>
+        <input matInput formControlName="name" placeholder="Your full name" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Email Address</mat-label>
+        <input matInput formControlName="email" type="email" placeholder="your.email@example.com" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Tech Stack</mat-label>
+        <input matInput formControlName="stack" placeholder="e.g. Angular, .NET, React" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Years of Experience</mat-label>
+        <mat-select formControlName="experienceYears">
+          <mat-option *ngFor="let exp of experienceOptions" [value]="exp">
+            {{ exp }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Preferred Time Slot</mat-label>
+        <mat-select formControlName="slotTime">
+          <mat-option *ngFor="let slot of slotTimes" [value]="slot.value">
+            {{ slot.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Session Type</mat-label>
+        <mat-select formControlName="sessionType">
+          <mat-option *ngFor="let type of sessionTypes" [value]="type">
+            {{ type }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="file-section">
+      <h3>Resume (Optional)</h3>
+      <div class="file-upload">
+        <label class="upload-label">
+          <input type="file" (change)="onFileChange($event)" class="file-input" />
+          <span class="upload-button">Choose File</span>
+          <span class="file-name">{{ fileName || 'No file chosen' }}</span>
+        </label>
+      </div>
+      <p class="file-hint">Upload your resume for personalized career advice</p>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-button (click)="cancel()" class="cancel-btn">Cancel</button>
+  <button mat-flat-button color="primary" (click)="submitForm()" class="submit-button">
+    Confirm Booking - $1
+  </button>
+</mat-dialog-actions>
