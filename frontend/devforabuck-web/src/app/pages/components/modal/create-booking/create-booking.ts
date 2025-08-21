@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { BookingsService } from '../../../../service/bookings-service';
 
 @Component({
   selector: 'app-booking-modal',
@@ -24,49 +25,66 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class BookingModalComponent {
   bookingForm: FormGroup;
+  resumeFile: File | null = null;
+  fileName: string | null = null;
 
   experienceOptions = [0, 1, 2, 3, '4+'];
   sessionTypes = ['Resume Review', 'Career Counselling'];
+
+  // You can generate dynamic slots here
   slotTimes = [
-    { label: 'Tomorrow 10:00 AM', value: new Date(new Date().setHours(10, 0, 0)) },
-    { label: 'Tomorrow 2:00 PM', value: new Date(new Date().setHours(14, 0, 0)) },
-    { label: 'Tomorrow 6:00 PM', value: new Date(new Date().setHours(18, 0, 0)) }
+    { label: 'Tomorrow 10:00 AM', value: new Date(new Date().setHours(10, 0, 0, 0)).toISOString() },
+    { label: 'Tomorrow 2:00 PM', value: new Date(new Date().setHours(14, 0, 0, 0)).toISOString() },
+    { label: 'Tomorrow 6:00 PM', value: new Date(new Date().setHours(18, 0, 0, 0)).toISOString() }
   ];
 
   constructor(
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<BookingModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    private bookingsService: BookingsService,
+    public dialogRef: MatDialogRef<BookingModalComponent>
   ) {
     this.bookingForm = this.fb.group({
-      name: ['aa', Validators.required],
-      email: ['a@gmail.com', [Validators.required, Validators.email]],
-      stack: ['a', Validators.required],
-      experienceYears: ['0', Validators.required],
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      stack: ['', Validators.required],
+      experienceYears: ['', Validators.required],
       slotTime: ['', Validators.required],
-      sessionType: ['', Validators.required],
-      resume: [null, Validators.required]
+      sessionType: ['', Validators.required]
     });
   }
 
-  // Add this property to your component class
-  fileName: string = '';
-
-  // Update the onFileChange method
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.fileName = file.name;
-      // Your existing file handling logic
+  onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input?.files?.length) {
+      this.resumeFile = input.files[0];
+      this.fileName = this.resumeFile.name;
     }
   }
 
   submitForm() {
     if (this.bookingForm.valid) {
-      console.log('Booking Data:', this.bookingForm.value);
-      this.dialogRef.close(this.bookingForm.value);
+      const formData = new FormData();
+      formData.append('Name', this.bookingForm.get('name')?.value);
+      formData.append('Email', this.bookingForm.get('email')?.value);
+      formData.append('Stack', this.bookingForm.get('stack')?.value);
+      formData.append('ExperienceYears', this.bookingForm.get('experienceYears')?.value);
+      formData.append('SlotTime', this.bookingForm.get('slotTime')?.value);
+      formData.append('SessionType', this.bookingForm.get('sessionType')?.value);
+
+      if (this.resumeFile) {
+        formData.append('Resume', this.resumeFile, this.resumeFile.name);
+      }
+
+      this.bookingsService.createBooking(formData).subscribe({
+        next: (res) => {
+          console.log('Booking success:', res);
+          this.dialogRef.close(res);
+        },
+        error: (err) => {
+          console.error('Booking error:', err);
+        }
+      });
     } else {
-      console.log("hi", this.bookingForm.value);
       this.bookingForm.markAllAsTouched();
     }
   }

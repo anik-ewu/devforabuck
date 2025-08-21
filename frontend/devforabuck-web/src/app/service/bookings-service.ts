@@ -28,4 +28,8 @@ export class BookingsService {
   getBookingsByEmail(email: string): Observable<BookingList[]> {
     return this.http.get<BookingList[]>(`${this.apiUrl}/bookings/queries/${email}`);
   }
+
+  createBooking(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/bookings/commands`, formData);
+  }
 }

@@ -23,7 +23,8 @@ namespace DevForABuck.Application.Commands.CreateBooking
                 Email = request.Email,
                 Stack = request.Stack,
                 ExperienceYears = request.ExperienceYears,
-                SlotTime = request.SlotTime
+                SlotTime = request.SlotTime,
+                SessionType = request.SessionType
             };
 
             // Upload resume & save booking through your Infrastructure service

@@ -20,7 +20,10 @@ public class Booking
 
     [JsonProperty("slotTime")]
     public DateTime SlotTime { get; set; }
-
+    
+    [JsonProperty("sessionType")]
+    public string SessionType { get; set; }
+    
     [JsonProperty("resumeUrl")]
     public string ResumeUrl { get; set; }
 }
