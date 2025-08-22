@@ -1,3 +1,4 @@
+<!-- Component HTML -->
 <h2 mat-dialog-title class="dialog-title">Book Your Consultation</h2>
 
 <mat-dialog-content class="dialog-content">
@@ -14,11 +15,13 @@
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Full Name</mat-label>
         <input matInput formControlName="name" placeholder="Your full name" />
+        <mat-icon matSuffix>person</mat-icon>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Email Address</mat-label>
         <input matInput formControlName="email" type="email" placeholder="your.email@example.com" />
+        <mat-icon matSuffix>email</mat-icon>
       </mat-form-field>
     </div>
 
@@ -26,6 +29,7 @@
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Tech Stack</mat-label>
         <input matInput formControlName="stack" placeholder="e.g. Angular, .NET, React" />
+        <mat-icon matSuffix>code</mat-icon>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-field">
@@ -35,6 +39,7 @@
             {{ exp }}
           </mat-option>
         </mat-select>
+        <mat-icon matSuffix>work</mat-icon>
       </mat-form-field>
     </div>
 
@@ -46,6 +51,7 @@
             {{ slot.label }}
           </mat-option>
         </mat-select>
+        <mat-icon matSuffix>schedule</mat-icon>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-field">
@@ -55,6 +61,7 @@
             {{ type }}
           </mat-option>
         </mat-select>
+        <mat-icon matSuffix>video_call</mat-icon>
       </mat-form-field>
     </div>
 
@@ -63,11 +70,14 @@
       <div class="file-upload">
         <label class="upload-label">
           <input type="file" (change)="onFileChange($event)" class="file-input" />
-          <span class="upload-button">Choose File</span>
-          <span class="file-name">{{ fileName || 'No file chosen' }}</span>
+          <div class="upload-area">
+            <mat-icon class="upload-icon">cloud_upload</mat-icon>
+            <span class="upload-text">Drag & drop or <span class="browse-link">browse files</span></span>
+            <span class="file-name">{{ fileName || 'No file chosen' }}</span>
+          </div>
         </label>
       </div>
-      <p class="file-hint">Upload your resume for personalized career advice</p>
+      <p class="file-hint">Upload your resume for personalized career advice (PDF, DOCX - Max 5MB)</p>
     </div>
   </form>
 </mat-dialog-content>
@@ -75,6 +85,7 @@
 <mat-dialog-actions align="end" class="dialog-actions">
   <button mat-button (click)="cancel()" class="cancel-btn">Cancel</button>
   <button mat-flat-button color="primary" (click)="submitForm()" class="submit-button">
+    <mat-icon>event_available</mat-icon>
     Confirm Booking
   </button>
 </mat-dialog-actions>

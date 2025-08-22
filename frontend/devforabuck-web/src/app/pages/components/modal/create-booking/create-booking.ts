@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BookingsService } from '../../../../service/bookings-service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-booking-modal',
@@ -18,7 +19,8 @@ import { BookingsService } from '../../../../service/bookings-service';
     MatFormFieldModule, // form wrapper
     MatInputModule,    // <input matInput>
     MatSelectModule,   // <mat-select>
-    MatButtonModule    // buttons
+    MatButtonModule,   // buttons
+    MatIconModule,
   ],
   templateUrl: './create-booking.html',
   styleUrls: ['./create-booking.scss']
