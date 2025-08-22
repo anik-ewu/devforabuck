@@ -1,61 +1,87 @@
-<!-- Restricted Message -->
+<!-- Restricted -->
 <section class="restricted-view" *ngIf="notAllowed">
   <h2>🔒 Access Denied</h2>
-  <p>Please log in to access your bookings.</p>
+  <p>Please log in to create new booking and access your bookings.</p>
   <a class="btn-primary" routerLink="/">← Go Home</a>
 </section>
 
-<!-- Bookings Section -->
+<!-- Bookings -->
 <section class="bookings" *ngIf="!notAllowed">
   <header class="bookings-header">
-    <h1>📘 My Bookings</h1>
+    <div class="title-group">
+      <mat-icon class="header-icon">event_note</mat-icon>
+      <h1>My Bookings</h1>
+    </div>
+
     <div class="actions">
-      <button (click)="refreshBookings()">🔄 Refresh</button>
-      <button (click)="exportBookings()">📤 Export</button>
+      <button mat-flat-button color="primary" class="create-btn" (click)="openBookingModal()">
+        <mat-icon>add_circle</mat-icon>
+        New Booking
+      </button>
+
+      <button mat-stroked-button class="export-btn" (click)="exportBookings()">
+        <mat-icon>download</mat-icon>
+        Export
+      </button>
     </div>
   </header>
 
-  <div *ngIf="bookings.length; else noData" class="table-container">
-    <table class="responsive-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Stack</th>
-          <th>Experience</th>
-          <th>Slot Time</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let booking of bookings">
-          <td data-label="Name">{{ booking.name }}</td>
-          <td data-label="Email">
-            <a [href]="'mailto:' + booking.email">{{ booking.email }}</a>
-          </td>
-          <td data-label="Stack">{{ booking.stack }}</td>
-          <td data-label="Exp">{{ booking.experienceYears }} yrs</td>
-          <td data-label="Time">{{ booking.slotTime | date:'MMM d, y, h:mm a' }}</td>
-          <td data-label="Actions">
-            <a *ngIf="booking.resumeUrl"
-               class="btn-secondary download-btn"
-               [href]="booking.resumeUrl"
-               download
-               target="_blank">
-              ⬇️
-            </a>
-          </td>
 
-        </tr>
-      </tbody>
+  <div class="table-card" *ngIf="!isLoading && bookings.length; else stateTpl">
+    <table mat-table [dataSource]="bookings" class="mat-elevation-z1 minimal-table">
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let b">{{ b.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let b">
+          <a [href]="'mailto:' + b.email">{{ b.email }}</a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="stack">
+        <th mat-header-cell *matHeaderCellDef>Stack</th>
+        <td mat-cell *matCellDef="let b">{{ b.stack }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="experienceYears">
+        <th mat-header-cell *matHeaderCellDef>Experience</th>
+        <td mat-cell *matCellDef="let b">{{ b.experienceYears }} yrs</td>
+      </ng-container>
+
+      <ng-container matColumnDef="slotTime">
+        <th mat-header-cell *matHeaderCellDef>Slot Time</th>
+        <td mat-cell *matCellDef="let b">{{ b.slotTime | date:'MMM d, y, h:mm a' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="actions-col">Actions</th>
+        <td mat-cell *matCellDef="let b" class="actions-col">
+          <a *ngIf="b.resumeUrl" class="btn-secondary icon-btn" [href]="b.resumeUrl" download target="_blank" title="Download Resume">
+            ⬇️
+          </a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row        *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
 
-  <ng-template #noData>
+  <ng-template #stateTpl>
+    <div class="state-wrap" *ngIf="isLoading; else emptyTpl">
+      <mat-spinner diameter="36"></mat-spinner>
+    </div>
+  </ng-template>
+
+  <ng-template #emptyTpl>
     <div class="empty-state">
       <h3>📅 No Bookings</h3>
       <p>You haven't scheduled any sessions yet.</p>
-      <a class="btn-primary" routerLink="/bookings/new">➕ Book Now</a>
+      <button mat-flat-button color="primary" class="btn-primary" (click)="openBookingModal()">➕ Book Now</button>
     </div>
   </ng-template>
 </section>

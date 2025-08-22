@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { BookingModalComponent } from '../components/modal/create-booking/create-booking';
+import { RouterModule } from '@angular/router';
 // import { BookingModalComponent } from './booking-modal.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, MatDialogModule],
+  imports: [CommonModule, MatDialogModule, RouterModule],
   templateUrl: './home.html',
   styleUrls: ['./home.scss']
 })

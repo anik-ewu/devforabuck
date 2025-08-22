@@ -1,14 +1,28 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { BookingList, BookingsService } from '../../service/bookings-service';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '../../shared/services/auth.service';
-// import { AuthService } from '../../service/auth'; // ✅ your service
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BookingsService, BookingList } from '../../service/bookings-service';
+import { BookingModalComponent } from '../components/modal/create-booking/create-booking';
+// import { BookingModalComponent } from '../booking-modal/create-booking.component';
 
 @Component({
   selector: 'app-bookings',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
+    MatProgressSpinnerModule
+  ],
+  providers: [DatePipe],
   templateUrl: './bookings.html',
   styleUrls: ['./bookings.scss'],
 })
@@ -18,12 +32,15 @@ export class Bookings implements OnInit {
   error: string | null = null;
   notAllowed = false;
 
+  displayedColumns = ['name', 'email', 'stack', 'experienceYears', 'slotTime', 'actions'];
+
   private bookingsService = inject(BookingsService);
-  private auth = inject(AuthService);
+  private dialog = inject(MatDialog);
+  // Replace with real auth if needed
+  private isLoggedIn = true;
 
   ngOnInit(): void {
-    const isLoggedIn = this.auth.isLoggedIn;
-    if (isLoggedIn) {
+    if (this.isLoggedIn) {
       this.loadBookings();
     } else {
       this.notAllowed = true;
@@ -48,15 +65,35 @@ export class Bookings implements OnInit {
     });
   }
 
-  refreshBookings(): void {
-    this.loadBookings();
-  }
-
   exportBookings(): void {
     const csvContent = this.convertToCSV(this.bookings);
     this.downloadFile(csvContent, 'bookings.csv');
   }
 
+  openBookingModal(): void {
+    const dialogRef = this.dialog.open(BookingModalComponent, {
+      width: '600px',
+      maxWidth: '95vw',
+      panelClass: 'booking-dialog-container',
+      autoFocus: false,
+      backdropClass: 'booking-backdrop'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) return;
+
+      // You said you'll call the API yourself — result.formData is ready
+      console.log('Booking payload ready:', result);
+
+      // Example: call your service here if/when you want
+      // this.bookingsService.createBooking(result.formData).subscribe({...});
+
+      // Optimistic UI (optional): reload list
+      this.loadBookings();
+    });
+  }
+
+  // utils
   private convertToCSV(bookings: BookingList[]): string {
     const headers = ['Name', 'Email', 'Stack', 'Experience', 'Slot Time'];
     const rows = bookings.map((b) => [
@@ -64,20 +101,16 @@ export class Bookings implements OnInit {
       `"${b.email}"`,
       `"${b.stack}"`,
       b.experienceYears,
-      `"${new Date(b.slotTime).toLocaleString()}"`,
+      `"${new Date(b.slotTime).toLocaleString()}"`
     ]);
     return [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
   }
 
   private downloadFile(content: string, fileName: string): void {
     const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', fileName);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const a = document.createElement('a');
+    a.href = url; a.download = fileName; a.click();
+    URL.revokeObjectURL(url);
   }
 }
