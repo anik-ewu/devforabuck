@@ -1,5 +1,6 @@
 using DevForABuck.Application.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevForABuck.API.Controllers;
@@ -15,6 +16,7 @@ public class SlotsQueryController: ControllerBase
     }
 
     [HttpGet("admin/allSlots")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetAllSlotsAsync()
     {
         var allSlots = await _mediator.Send(new GetAllSlots());

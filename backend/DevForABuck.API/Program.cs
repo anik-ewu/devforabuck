@@ -4,6 +4,9 @@ using Microsoft.Azure.Cosmos;
 using Azure.Storage.Blobs;
 using DevForABuck.Application.Commands.CreateBooking;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +37,20 @@ builder.Services.AddSingleton(s =>
 builder.Services.AddMediatR(typeof(Program));
 builder.Services.AddMediatR(typeof(CreateBookingCommandHandler).Assembly);
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = builder.Configuration["Auth0:Authority"];
+        options.Audience = builder.Configuration["Auth0:Audience"];
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            NameClaimType = ClaimTypes.NameIdentifier,
+            RoleClaimType = "roles"
+        };
+    });
+
+builder.Services.AddAuthorization();
+
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole(); // This connects logs to App Service Log Stream!
 
@@ -59,6 +76,7 @@ var app = builder.Build();
 app.UseRouting();
 app.UseCors("AllowFrontend");
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 
 // ✅ Always enable Swagger in all envs

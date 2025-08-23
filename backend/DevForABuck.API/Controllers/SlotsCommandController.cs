@@ -1,10 +1,12 @@
 using DevForABuck.Application.Commands;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevForABuck.API.Controllers;
 [ApiController]
 [Route("api/slots/commands")]
+[Authorize(Roles = "Admin")]
 public class SlotsCommandController: ControllerBase
 {
     private readonly IMediator _mediator;

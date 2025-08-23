@@ -1,22 +1,15 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 export const AdminGuard: CanActivateFn = () => {
   const router = inject(Router);
-  const token = localStorage.getItem('access_token');
-  if (!token) {
-    router.navigate(['/']);
-    return false;
+  const auth = inject(AuthService);
+
+  if (auth.isLoggedIn) {
+    return true;
   }
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const roles = payload?.roles || [];
-    if (roles.includes('Admin')) {
-      return true;
-    }
-  } catch {
-    // ignore invalid token
-  }
+
   router.navigate(['/']);
   return false;
 };
