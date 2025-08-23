@@ -18,6 +18,11 @@ public class BookingsCommandController : ControllerBase
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> Create([FromForm] CreateBookingCommand command)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
         var booking = await _mediator.Send(command);
         return CreatedAtAction(nameof(Create), booking);
     }
