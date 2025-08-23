@@ -8,6 +8,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BookingsService, BookingList } from '../../service/bookings-service';
 import { BookingModalComponent } from '../components/modal/create-booking/create-booking';
+import { AuthService } from '../../shared/services/auth.service';
 // import { BookingModalComponent } from '../booking-modal/create-booking.component';
 
 @Component({
@@ -36,11 +37,10 @@ export class Bookings implements OnInit {
 
   private bookingsService = inject(BookingsService);
   private dialog = inject(MatDialog);
-  // Replace with real auth if needed
-  private isLoggedIn = true;
+  private auth = inject(AuthService);
 
   ngOnInit(): void {
-    if (this.isLoggedIn) {
+    if (this.auth.isLoggedIn) {
       this.loadBookings();
     } else {
       this.notAllowed = true;
@@ -49,6 +49,11 @@ export class Bookings implements OnInit {
   }
 
   loadBookings(): void {
+    if (!this.auth.isLoggedIn) {
+      this.notAllowed = true;
+      this.isLoading = false;
+      return;
+    }
     this.isLoading = true;
     this.error = null;
 
