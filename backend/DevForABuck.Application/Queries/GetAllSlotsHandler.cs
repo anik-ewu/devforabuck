@@ -13,17 +13,9 @@ public class GetAllSlotsHandler: IRequestHandler<GetAllSlots, IEnumerable<Availa
         _slotService = slotService;
     }
     
-    public Task<IEnumerable<AvailableSlot>> Handle(GetAllSlots request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<AvailableSlot>> Handle(GetAllSlots request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var allSlots = _slotService.GetAllSlotsAsync();
-            return allSlots;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        var allSlots = await _slotService.GetAllSlotsAsync();
+        return allSlots;
     }
 }
