@@ -19,15 +19,21 @@ builder.Services.AddScoped<ISlotService, SlotService>();
 builder.Services.AddSingleton(s =>
 {
     var config = s.GetRequiredService<IConfiguration>();
-    var account = config["CosmosDb:Account"];
-    var key = config["CosmosDb:Key"];
+    var account = config["CosmosDb:Account"]
+        ?? Environment.GetEnvironmentVariable("COSMOSDB_ACCOUNT")
+        ?? throw new InvalidOperationException("CosmosDb account not configured");
+    var key = config["CosmosDb:Key"]
+        ?? Environment.GetEnvironmentVariable("COSMOSDB_KEY")
+        ?? throw new InvalidOperationException("CosmosDb key not configured");
     return new CosmosClient(account, key);
 });
 
 builder.Services.AddSingleton(s =>
 {
     var config = s.GetRequiredService<IConfiguration>();
-    var connectionString = config["BlobStorage:ConnectionString"] ?? throw new InvalidOperationException($"CosmosDb connection string not found");
+    var connectionString = config["BlobStorage:ConnectionString"]
+        ?? Environment.GetEnvironmentVariable("BLOB_STORAGE_CONNECTION_STRING")
+        ?? throw new InvalidOperationException("Blob storage connection string not found");
     return new BlobServiceClient(connectionString);
 });
 

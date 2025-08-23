@@ -1,10 +1,10 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://devforabuck-api-prod-gragc5hah6dbh6a0.southeastasia-01.azurewebsites.net/api',
-  clientId: '16739f71-1bdc-4368-8b94-a79bf5573b83',
-  tenantDomain: 'devforabuck.onmicrosoft.com',
-  authority: 'https://devforabuck.ciamlogin.com',
-  redirectUri: 'https://www.devforabuck.com',
-  logoutRedirectUri: 'https://www.devforabuck.com',
-  scope: 'openid profile'
+  apiUrl: process.env['NG_APP_API_URL'] ?? '',
+  clientId: process.env['NG_APP_CLIENT_ID'] ?? '',
+  tenantDomain: process.env['NG_APP_TENANT_DOMAIN'] ?? '',
+  authority: process.env['NG_APP_AUTHORITY'] ?? '',
+  redirectUri: process.env['NG_APP_REDIRECT_URI'] ?? '',
+  logoutRedirectUri: process.env['NG_APP_LOGOUT_REDIRECT_URI'] ?? '',
+  scope: process.env['NG_APP_SCOPE'] ?? 'openid profile'
 };

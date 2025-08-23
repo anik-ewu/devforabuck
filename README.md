@@ -60,6 +60,36 @@ A full-stack booking and consultation platform built with <b>ASP.NET Core (.NET 
   /Domain         # Entities, Aggregates
   /Infrastructure # Cosmos DB, Blob Storage, Auth setup
 
+## 🔧 Configuration
+
+### Backend
+
+The API reads Cosmos DB and Azure Blob Storage credentials from environment variables at runtime:
+
+```bash
+export COSMOSDB_ACCOUNT="https://<your-account>.documents.azure.com:443/"
+export COSMOSDB_KEY="<your-key>"
+export BLOB_STORAGE_CONNECTION_STRING="<your-connection-string>"
+```
+
+Set these in your shell or via `dotnet user-secrets` when running locally.
+
+### Frontend
+
+Angular uses build-time environment variables prefixed with `NG_APP_`. Copy `.env.example` in `frontend/devforabuck-web` to `.env` and populate your values:
+
+```bash
+NG_APP_API_URL=https://localhost:5001/api
+NG_APP_CLIENT_ID=<client-id>
+NG_APP_TENANT_DOMAIN=<tenant-domain>
+NG_APP_AUTHORITY=<authority-url>
+NG_APP_REDIRECT_URI=http://localhost:4200
+NG_APP_LOGOUT_REDIRECT_URI=http://localhost:4200
+NG_APP_SCOPE="openid profile"
+```
+
+The variables are injected during `npm start`/`ng build`.
+
 ## 🔐 Authentication Flow
 ```mermaid
 sequenceDiagram
