@@ -60,6 +60,14 @@ A full-stack booking and consultation platform built with <b>ASP.NET Core (.NET 
   /Domain         # Entities, Aggregates
   /Infrastructure # Cosmos DB, Blob Storage, Auth setup
 
+## ⚙️ Local Setup
+After pulling the repository, install frontend dependencies:
+```bash
+cd frontend/devforabuck-web
+npm install
+```
+This restores the `node_modules` folder, which is intentionally excluded from version control.
+
 ## 🔐 Authentication Flow
 ```mermaid
 sequenceDiagram
