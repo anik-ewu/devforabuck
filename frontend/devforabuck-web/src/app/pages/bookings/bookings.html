@@ -2,7 +2,8 @@
 <section class="restricted-view" *ngIf="notAllowed">
   <h2>🔒 Access Denied</h2>
   <p>Please log in to create new booking and access your bookings.</p>
-  <a class="btn-primary" routerLink="/">← Go Home</a>
+  <button class="btn-primary" (click)="login()">Log in</button>
+  <a class="btn-secondary" routerLink="/">← Go Home</a>
 </section>
 
 <!-- Bookings -->

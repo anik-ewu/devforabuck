@@ -115,8 +115,41 @@ $ink: #0d1b2a;
 }
 
 .restricted-view {
-  background: #fff0f0; color: #b91c1c; border-radius: 12px; text-align: center;
-  .btn-primary { margin-top: 1rem; }
+  background: #fff0f0;
+  color: #b91c1c;
+  border-radius: 12px;
+  text-align: center;
+  padding: 2rem 1rem;
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: $brand;
+    color: #fff;
+    border: none;
+
+    &:hover {
+      background: #c1121f;
+    }
+  }
+
+  .btn-secondary {
+    background: #f0f4f8;
+    color: $ink;
+
+    &:hover {
+      background: #e2e8f0;
+    }
+  }
 }
 
 .state-wrap {

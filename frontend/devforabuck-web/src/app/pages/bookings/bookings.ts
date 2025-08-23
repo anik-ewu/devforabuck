@@ -98,6 +98,10 @@ export class Bookings implements OnInit {
     });
   }
 
+  login(): void {
+    this.auth.login();
+  }
+
   // utils
   private convertToCSV(bookings: BookingList[]): string {
     const headers = ['Name', 'Email', 'Stack', 'Experience', 'Slot Time'];
