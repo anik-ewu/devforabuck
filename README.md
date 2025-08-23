@@ -84,5 +84,5 @@ sequenceDiagram
   Frontend->>Backend: Exchange code for tokens
   Backend->>Frontend: Access token + ID token
   Frontend->>Backend: Make secure API calls
-
+```
 
