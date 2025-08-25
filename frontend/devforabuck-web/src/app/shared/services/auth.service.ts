@@ -56,6 +56,7 @@ export class AuthService {
     body.set('code', code);
     body.set('redirect_uri', environment.redirectUri);
     body.set('client_id', environment.clientId);
+    body.set('scope', environment.scope);
     body.set('code_verifier', codeVerifier || '');
 
     try {
