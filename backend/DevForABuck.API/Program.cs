@@ -92,18 +92,16 @@ builder.Services.AddAuthorization();
 
 
 
-// Cors policy
+// CORS policy
+// Using AllowAnyOrigin so the API can be accessed from any frontend.
+// This is useful for development or when the frontend's domain isn't known at build time.
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.WithOrigins(
-                "http://localhost:4200",
-                "https://dev.devforabuck.com",
-                "https://www.devforabuck.com")
+        policy
+            .AllowAnyOrigin()
             .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
+            .AllowAnyMethod());
 });
 
 
