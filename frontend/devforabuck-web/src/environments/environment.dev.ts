@@ -6,5 +6,5 @@ export const environment = {
   authority: 'https://devforabucklocal.ciamlogin.com',
   redirectUri: 'https://dev.devforabuck.com',
   logoutRedirectUri: 'https://dev.devforabuck.com',
-  scope: 'openid profile'
+  scope: 'openid profile api://5df26c43-eac1-441f-9114-1961a2d0b26d/.default'
 };
