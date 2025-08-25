@@ -50,11 +50,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         var clientId = config["Auth:ClientId"];
         var authority = config["Auth:Authority"];
 
-        options.Authority = $"{authority}/{tenantId}/v2.0/";
+        var issuer = $"{authority}/{tenantId}/v2.0";
+        options.Authority = issuer;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = $"{authority}/{tenantId}/v2.0/",
+            ValidIssuer = issuer,
+            ValidIssuers = new[] { issuer, issuer + "/" },
             ValidateAudience = true,
             // Azure AD can issue tokens with either the bare ClientId or an
             // `api://{clientId}` prefix as the audience. Accept both formats so
