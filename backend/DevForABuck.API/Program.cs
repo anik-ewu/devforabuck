@@ -1,9 +1,13 @@
+using DevForABuck.Application.Commands.CreateBooking;
 using DevForABuck.Application.Interfaces;
 using DevForABuck.Infrastructure.Services;
-using Microsoft.Azure.Cosmos;
-using Azure.Storage.Blobs;
-using DevForABuck.Application.Commands.CreateBooking;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Azure.Cosmos;
+using Microsoft.IdentityModel.Tokens;
+using Azure.Storage.Blobs;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +41,30 @@ builder.Services.AddMediatR(typeof(CreateBookingCommandHandler).Assembly);
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole(); // This connects logs to App Service Log Stream!
 
+// ✅ JWT Bearer Auth from config
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        var config = builder.Configuration;
+        var tenantId = config["Auth:TenantId"];
+        var clientId = config["Auth:ClientId"];
+        var authority = config["Auth:Authority"];
+
+        options.Authority = $"{authority}/{tenantId}/v2.0/";
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = $"{authority}/{tenantId}/v2.0/",
+            ValidateAudience = true,
+            ValidAudience = $"{clientId}",
+            ValidateLifetime = true,
+            RoleClaimType = "roles"
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+
 
 // Cors policy
 builder.Services.AddCors(options =>
@@ -56,9 +84,20 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // ✅ Common middlewares
+app.Use(async (context, next) =>
+{
+    var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+    if (context.User.Identity?.IsAuthenticated == false)
+    {
+        logger.LogWarning("Unauthenticated request to: {Path}", context.Request.Path);
+    }
+    await next();
+});
+
 app.UseRouting();
 app.UseCors("AllowFrontend");
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 
 // ✅ Always enable Swagger in all envs
