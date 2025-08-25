@@ -26,7 +26,9 @@ export class BookingsService {
   }
 
   getBookingsByEmail(email: string): Observable<BookingList[]> {
-    return this.http.get<BookingList[]>(`${this.apiUrl}/bookings/queries/${email}`);
+    return this.http.get<BookingList[]>(
+      `${this.apiUrl}/bookings/queries/${encodeURIComponent(email)}`
+    );
   }
 
   createBooking(formData: FormData): Observable<any> {
