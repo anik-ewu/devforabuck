@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Azure.Cosmos;
 using Microsoft.IdentityModel.Tokens;
 using Azure.Storage.Blobs;
+using Microsoft.Extensions.Options;
+using DevForABuck.API;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,16 +43,24 @@ builder.Services.AddMediatR(typeof(CreateBookingCommandHandler).Assembly);
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole(); // This connects logs to App Service Log Stream!
 
-// ✅ JWT Bearer Auth from config
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        var config = builder.Configuration;
-        var tenantId = config["Auth:TenantId"];
-        var clientId = config["Auth:ClientId"];
-        var authority = config["Auth:Authority"];
+var authSection = builder.Configuration.GetSection("Auth");
+builder.Services.Configure<AuthOptions>(authSection);
+builder.Services.AddOptions<AuthOptions>()
+    .ValidateDataAnnotations()
+    .Validate(o => !string.IsNullOrWhiteSpace(o.TenantId), "Auth:TenantId is required")
+    .Validate(o => !string.IsNullOrWhiteSpace(o.ClientId), "Auth:ClientId is required")
+    .Validate(o => !string.IsNullOrWhiteSpace(o.Authority), "Auth:Authority is required")
+    .ValidateOnStart();
 
-        var issuer = $"{authority}/{tenantId}/v2.0";
+// ✅ JWT Bearer Auth from strongly typed config
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer();
+
+builder.Services.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme)
+    .Configure<IOptions<AuthOptions>>((options, authOptions) =>
+    {
+        var auth = authOptions.Value;
+        var issuer = $"{auth.Authority}/{auth.TenantId}/v2.0";
         options.Authority = issuer;
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -59,10 +69,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuers = new[] { issuer, issuer + "/" },
             ValidateAudience = true,
             // Azure AD can issue tokens with either the bare ClientId or an
-            // `api://{clientId}` prefix as the audience. Accept both formats so
+            // `api://{auth.ClientId}` prefix as the audience. Accept both formats so
             // locally issued tokens and those requested with a custom scope are
             // considered valid.
-            ValidAudiences = new[] { $"api://{clientId}", clientId },
+            ValidAudiences = new[] { $"api://{auth.ClientId}", auth.ClientId },
             ValidateLifetime = true,
             RoleClaimType = "roles"
         };
