@@ -57,7 +57,7 @@ export class Bookings implements OnInit {
     this.isLoading = true;
     this.error = null;
 
-    this.bookingsService.getAllBookings().subscribe({
+    this.bookingsService.getBookingsByEmail('sabbirhasananik@gmail.com').subscribe({
       next: (data) => {
         this.bookings = data;
         this.isLoading = false;
