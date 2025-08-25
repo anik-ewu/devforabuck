@@ -56,7 +56,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = true,
             ValidIssuer = $"{authority}/{tenantId}/v2.0/",
             ValidateAudience = true,
-            ValidAudience = $"{clientId}",
+            // Azure AD can issue tokens with either the bare ClientId or an
+            // `api://{clientId}` prefix as the audience. Accept both formats so
+            // locally issued tokens and those requested with a custom scope are
+            // considered valid.
+            ValidAudiences = new[] { $"api://{clientId}", clientId },
             ValidateLifetime = true,
             RoleClaimType = "roles"
         };
